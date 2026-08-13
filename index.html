@@ -28,6 +28,9 @@
     --red:#a8382b;
     --red-bg:#fbebe8;
     --ok-bg:#e3f3e9;
+    --gold:#c9962c;
+    --gold-light:#f0d48a;
+    --gold-dark:#8a6015;
     --shadow:0 1px 2px rgba(18,51,36,.06), 0 6px 20px rgba(18,51,36,.06);
     --radius:14px;
   }
@@ -504,6 +507,107 @@
     border:1px solid rgba(255,255,255,.25);padding:4px 10px;border-radius:999px;
   }
 
+  /* ---- Pilar de Soberania Tecnológica & Code-as-Context (fecho da aba ROI) ---- */
+  .sovereignty-pillar{
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 60%, var(--green-700) 100%);
+    border:1.5px solid var(--gold);
+    border-radius:var(--radius);
+    padding:26px 28px 24px;
+    box-shadow:0 6px 24px rgba(18,51,36,.25);
+    color:#fff;
+  }
+  .sovereignty-pillar::before{
+    content:"";position:absolute;top:-50px;left:-50px;width:200px;height:200px;
+    background:radial-gradient(circle, rgba(201,150,44,.22) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .sp-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative;}
+  .sp-crown{
+    flex:none;width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    border:2px solid var(--gold-light);
+    color:var(--green-900);
+  }
+  .sp-header h3{margin:0;font-size:15.5px;color:#fff;line-height:1.35;}
+  .sp-header h3 span{display:block;font-size:11px;font-weight:700;color:var(--gold-light);margin-top:3px;letter-spacing:.03em;}
+  .sp-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;position:relative;}
+  .sp-item{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,150,44,.5);
+    border-radius:12px;
+    padding:16px 16px 14px;
+  }
+  .sp-num{
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:800;
+    background:var(--gold);color:var(--green-900);
+    margin-bottom:10px;
+  }
+  .sp-text b{display:block;font-size:13px;color:var(--gold-light);margin-bottom:5px;}
+  .sp-text span{display:block;font-size:12.2px;color:var(--green-100);line-height:1.5;}
+
+  /* ---- Selo de Certificação & Onboarding de Lideranças ---- */
+  .cert-section{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%);
+    border:1px solid var(--gold);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 32px 32px;
+    margin-bottom:26px;
+    color:#fff;
+  }
+  .cert-section::before{
+    content:"";position:absolute;top:-60px;right:-60px;width:220px;height:220px;
+    background:radial-gradient(circle, rgba(201,150,44,.25) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .cert-section h2{margin:0 0 4px;font-size:17px;color:#fff;display:flex;align-items:center;gap:8px;position:relative;}
+  .cert-section .cap{font-size:12.8px;color:var(--green-100);max-width:720px;margin:0 0 22px;position:relative;}
+  .cert-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;
+    position:relative;
+  }
+  .cert-card{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,150,44,.55);
+    border-radius:12px;
+    padding:20px 16px 18px;
+    text-align:center;
+  }
+  .cert-badge{
+    width:52px;height:52px;border-radius:50%;margin:0 auto 12px;
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    color:var(--green-900);
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+    border:2px solid var(--gold-light);
+  }
+  .cert-card .name{font-size:14.5px;font-weight:800;color:#fff;margin-bottom:3px;}
+  .cert-card .cert-title{font-size:11.8px;color:var(--gold-light);font-weight:700;line-height:1.4;}
+  .cert-seal-note{
+    display:flex;gap:10px;align-items:flex-start;
+    background:rgba(255,255,255,.07);
+    border:1px dashed var(--gold);
+    border-radius:10px;
+    padding:13px 16px;
+    font-size:12.2px;color:var(--green-100);line-height:1.5;
+    margin-bottom:18px;
+  }
+  .cert-seal-note .ic{flex:none;font-size:17px;}
+  .cert-seal-note b{color:var(--gold-light);}
+  .cert-impact{
+    background:rgba(0,0,0,.2);
+    border-left:3px solid var(--gold);
+    border-radius:10px;
+    padding:16px 18px;
+    font-size:13.4px;color:#fff;line-height:1.55;
+  }
+  .cert-impact b{color:var(--gold-light);}
+
   footer{
     max-width:1180px;margin:0 auto;padding:0 32px 50px;
     color:var(--slate-500);font-size:12.5px;
@@ -520,6 +624,8 @@
     .flow{grid-template-columns:1fr;}
     .flow .arrow{transform:rotate(90deg);padding:2px 0;}
     .roi-metrics{grid-template-columns:repeat(2,1fr);}
+    .cert-grid{grid-template-columns:repeat(2,1fr);}
+    .sp-principles{grid-template-columns:1fr;}
   }
   @media (max-width:560px){
     .metrics{grid-template-columns:1fr;}
@@ -532,6 +638,10 @@
     .roi-section{padding:22px 18px 26px;}
     .sovereignty-widget{flex-direction:column;}
     .view-btn{flex:1;justify-content:center;}
+    .cert-grid{grid-template-columns:1fr;}
+    .cert-section{padding:22px 18px 26px;}
+    .sovereignty-pillar{padding:20px 18px;}
+    .sp-header{align-items:flex-start;}
   }
   @media print{
     .btns{display:none;}
@@ -589,10 +699,11 @@
     </div>
   </div>
 
-  <!-- VIEW TOGGLE: Organograma vs Painel de Eficiência & ROI -->
+  <!-- VIEW TOGGLE: Organograma vs Painel de Eficiência & ROI vs Certificação -->
   <div class="view-toggle">
     <button class="view-btn active" id="viewBtnOrg" data-view="org" aria-pressed="true">🗂️ Organograma-Síntese</button>
     <button class="view-btn" id="viewBtnRoi" data-view="roi" aria-pressed="false">📊 Painel de Eficiência &amp; ROI</button>
+    <button class="view-btn" id="viewBtnCert" data-view="cert" aria-pressed="false">🏆 Certificação de Lideranças</button>
   </div>
 
   <!-- ORG CHART -->
@@ -801,6 +912,67 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="subsec">
+      <div class="sovereignty-pillar">
+        <div class="sp-header">
+          <div class="sp-crown">👑</div>
+          <h3>O Santo Graal da Governança: Soberania &amp; Code-as-Context<span>ASAI Framework™</span></h3>
+        </div>
+        <div class="sp-principles">
+          <div class="sp-item">
+            <div class="sp-num">1</div>
+            <div class="sp-text"><b>Propriedade Intelectual em Disco</b><span>100% dos playbooks, contextos e regras de negócio gravados fisicamente em arquivos locais e versionados no GitHub Privado da empresa.</span></div>
+          </div>
+          <div class="sp-item">
+            <div class="sp-num">2</div>
+            <div class="sp-text"><b>Zero Dependence (Vendor Lock-in)</b><span>A Chlorophylla não fica refém de ferramentas terceiras de automação ou assinaturas proprietárias; o cérebro de IA é patrimônio da marca.</span></div>
+          </div>
+          <div class="sp-item">
+            <div class="sp-num">3</div>
+            <div class="sp-text"><b>Blindagem de Dados &amp; LGPD</b><span>Contextos sensíveis (DRE, estoque, margens B2B) operados sob a governança nativa de acesso do próprio cliente.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELO DE CERTIFICAÇÃO & ONBOARDING DE LIDERANÇAS -->
+  <div class="cert-section view-panel" id="view-cert">
+    <h2>🏆 Programa de Certificação ASAI™ — Operadores de Copiloto</h2>
+    <div class="cap">Líderes homologados aptos a operar o ecossistema de copilotos da Chlorophylla dentro da governança ASAI Framework™ — cada um certificado no arsenal de skills do próprio setor que lidera.</div>
+
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Rafael</div>
+        <div class="cert-title">Certificado em Copilotos de Growth &amp; Marketing</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Jaqueline</div>
+        <div class="cert-title">Certificada em Copilotos de Vendas B2B &amp; Expansão</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Rosângela</div>
+        <div class="cert-title">Certificada em Copilotos de Qualidade, Operações &amp; SAC</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Vanessa</div>
+        <div class="cert-title">Certificada em Copilotos Financeiros &amp; DRE</div>
+      </div>
+    </div>
+
+    <div class="cert-seal-note">
+      <div class="ic">🎖️</div>
+      <div><b>Selo do Badge:</b> Certificado de Proficiência em Governança, Etapa Zero e Engenharia de Copilotos Locais (ASAI Framework™).</div>
+    </div>
+
+    <div class="cert-impact">
+      <b>Nota de governança para a Diretoria:</b> a certificação garante que 100% da liderança da Chlorophylla está apta a operar o ecossistema com zero risco de desalinhamento de margem, travas de compliance ou alucinações de dados.
     </div>
   </div>
 
@@ -1210,7 +1382,7 @@
   // Open the first sector by default for a friendlier first view
   if(items.length){ items[0].classList.add('open'); }
 
-  // ---- View toggle: Organograma-Síntese <-> Painel de Eficiência & ROI ----
+  // ---- View toggle: Organograma-Síntese <-> Painel de Eficiência & ROI <-> Certificação de Lideranças ----
   var viewBtns = document.querySelectorAll('.view-btn');
   var viewPanels = document.querySelectorAll('.view-panel');
   viewBtns.forEach(function(btn){
