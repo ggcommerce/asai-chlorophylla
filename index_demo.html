@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Operacional & Governança — AutoMotors Group (ASAI Framework™ Demo)</title>
+<style>
+  :root{
+    --green-900:#123324;
+    --green-800:#1e4d3b;
+    --green-700:#245c3f;
+    --green-600:#2d6a4f;
+    --green-500:#40916c;
+    --green-400:#52b788;
+    --green-200:#b7e4c7;
+    --green-100:#e3f3e9;
+    --slate-900:#20242b;
+    --slate-800:#2c313a;
+    --slate-700:#3d4450;
+    --slate-500:#6b7280;
+    --slate-300:#c7ccd3;
+    --slate-200:#e2e5ea;
+    --slate-100:#eef0f3;
+    --cream:#f7f8f4;
+    --white:#ffffff;
+    --amber:#b4791f;
+    --amber-bg:#fbf1de;
+    --red:#a8382b;
+    --red-bg:#fbebe8;
+    --ok-bg:#e3f3e9;
+    --gold:#c9962c;
+    --gold-light:#f0d48a;
+    --gold-dark:#8a6015;
+    --shadow:0 1px 2px rgba(18,51,36,.06), 0 6px 20px rgba(18,51,36,.06);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Arial, sans-serif;
+    background:var(--cream);
+    color:var(--slate-900);
+    line-height:1.5;
+  }
+  a{color:inherit;}
+  code{
+    background:rgba(27,67,50,.07);
+    padding:1px 6px;border-radius:5px;
+    font-family:'Consolas','SFMono-Regular',monospace;
+    font-size:.92em;
+    color:var(--green-700);
+  }
+
+  /* ---------- HEADER ---------- */
+  header.hero{
+    background:
+      radial-gradient(1200px 400px at 15% -10%, rgba(82,183,136,.35), transparent 60%),
+      linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 45%, var(--green-700) 100%);
+    color:var(--white);
+    padding:48px 32px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  header.hero::after{
+    content:"";
+    position:absolute; inset:0;
+    background-image:radial-gradient(circle, rgba(255,255,255,.06) 1px, transparent 1px);
+    background-size:22px 22px;
+    opacity:.5;
+    pointer-events:none;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);
+    padding:6px 14px;border-radius:999px;
+    margin-bottom:18px;color:var(--green-100);
+    font-weight:600;
+  }
+  .hero h1{
+    font-size:clamp(26px,3.4vw,40px);
+    margin:0 0 10px;
+    font-weight:700;
+    letter-spacing:-.01em;
+  }
+  .hero p.lead{
+    max-width:760px;
+    font-size:16px;
+    color:rgba(255,255,255,.85);
+    margin:0 0 26px;
+  }
+  .triade{
+    display:flex;flex-wrap:wrap;gap:12px;
+  }
+  .triade .chip{
+    display:flex;align-items:center;gap:10px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.18);
+    border-radius:12px;
+    padding:10px 16px;
+    backdrop-filter:blur(2px);
+  }
+  .triade .chip .dot{
+    min-width:34px;height:34px;border-radius:10px;
+    padding:0 6px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:800;letter-spacing:-.02em;
+    background:var(--green-400);color:var(--green-900);
+    flex:none;
+  }
+  .triade .chip .txt b{display:block;font-size:13.5px;}
+  .triade .chip .txt span{display:block;font-size:11.5px;color:rgba(255,255,255,.7);}
+
+  /* ---------- CONTAINER ---------- */
+  main{max-width:1180px;margin:0 auto;padding:34px 32px 80px;}
+
+  /* ---------- DASHBOARD ---------- */
+  .metrics{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:16px;
+    margin-bottom:30px;
+  }
+  .metric-card{
+    background:var(--white);
+    border:1px solid var(--slate-200);
+    border-radius:var(--radius);
+    padding:20px 20px 18px;
+    box-shadow:var(--shadow);
+    position:relative;
+    overflow:hidden;
+  }
+  .metric-card::before{
+    content:"";
+    position:absolute; left:0; top:0; bottom:0; width:4px;
+    background:var(--green-500);
+  }
+  .metric-card.amber::before{background:var(--amber);}
+  .metric-card.red::before{background:var(--red);}
+  .metric-card .num{
+    font-size:32px;font-weight:800;color:var(--green-900);
+    line-height:1;margin-bottom:6px;
+  }
+  .metric-card .label{
+    font-size:13.5px;font-weight:700;color:var(--slate-800);
+    margin-bottom:4px;
+  }
+  .metric-card .sub{font-size:12.5px;color:var(--slate-500);}
+
+  /* ---------- GOVERNANCE CALLOUT ---------- */
+  .callout{
+    background:linear-gradient(180deg, var(--green-100), var(--white));
+    border:1px solid var(--green-200);
+    border-radius:var(--radius);
+    padding:20px 22px;
+    margin-bottom:30px;
+    display:flex;gap:16px;align-items:flex-start;
+  }
+  .callout .ic{font-size:24px;line-height:1;}
+  .callout h3{margin:0 0 6px;font-size:15px;color:var(--green-900);}
+  .callout p{margin:0;font-size:13.8px;color:var(--slate-700);}
+  .callout code{background:rgba(27,67,50,.08);padding:1px 6px;border-radius:5px;font-size:12.5px;}
+
+  /* ---------- ORG CHART ---------- */
+  .orgchart{
+    background:var(--white);
+    border:1px solid var(--slate-200);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 24px 24px;
+    margin-bottom:34px;
+  }
+  .orgchart h2{margin:0 0 4px;font-size:17px;color:var(--green-900);}
+  .orgchart .cap{font-size:12.8px;color:var(--slate-500);margin-bottom:22px;}
+  .org-ceo{
+    display:flex;justify-content:center;margin-bottom:6px;
+  }
+  .org-ceo .box{
+    background:var(--green-800);color:#fff;
+    padding:12px 26px;border-radius:10px;
+    font-weight:700;font-size:14px;text-align:center;
+    box-shadow:var(--shadow);
+  }
+  .org-ceo .box span{display:block;font-weight:500;font-size:11.5px;color:var(--green-200);margin-top:2px;}
+  .org-trunk{
+    width:2px;height:22px;background:var(--slate-300);margin:0 auto;
+  }
+  .org-row{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:14px;
+    position:relative;
+    padding-top:18px;
+  }
+  .org-row::before{
+    content:"";position:absolute;top:0;left:12%;right:12%;height:2px;background:var(--slate-300);
+  }
+  .org-col{position:relative;display:flex;flex-direction:column;}
+  .org-unit{position:relative;}
+  .org-node{
+    position:relative;
+    background:var(--cream);
+    border:1px solid var(--slate-200);
+    border-top:3px solid var(--green-500);
+    border-radius:10px;
+    padding:12px 12px 10px;
+    text-align:center;
+    cursor:pointer;
+    transition:transform .18s ease, box-shadow .18s ease, background-color .18s ease;
+  }
+  .org-node:hover{transform:translateY(-2px);box-shadow:var(--shadow);background:var(--green-100);}
+  .org-node:focus-visible{outline:2px solid var(--green-500);outline-offset:2px;}
+  .org-node.amber{border-top-color:var(--amber);}
+  .org-node.red{border-top-color:var(--red);}
+  .org-node::before{
+    content:"";position:absolute;top:-18px;left:50%;width:2px;height:18px;background:var(--slate-300);
+  }
+  .org-node.sub::before{display:none;}
+  .org-node.sub{transform:scale(.97);}
+  .org-node.sub:hover{transform:scale(.97) translateY(-2px);}
+  .org-node .n{font-size:11px;color:var(--slate-500);font-weight:700;letter-spacing:.03em;}
+  .org-node .t{font-size:13px;font-weight:700;color:var(--slate-900);margin:2px 0 2px;}
+  .org-node .l{font-size:12px;color:var(--slate-500);}
+  .org-node .hint{
+    margin-top:9px;font-size:10.3px;font-weight:800;color:var(--green-600);
+    display:flex;align-items:center;justify-content:center;gap:4px;
+    letter-spacing:.02em;
+  }
+  .org-node .hint svg{width:10px;height:10px;transition:transform .25s ease;}
+  .org-unit.open .org-node .hint svg{transform:rotate(180deg);}
+  .org-subtrunk{width:2px;height:16px;background:var(--slate-300);margin:10px auto 0;}
+  .org-detail-wrap{
+    display:grid;grid-template-rows:0fr;
+    transition:grid-template-rows .3s ease;
+    margin-top:8px;
+  }
+  .org-unit.open .org-detail-wrap{grid-template-rows:1fr;}
+  .org-detail-inner{overflow:hidden;}
+  .org-detail{
+    background:var(--white);
+    border:1px solid var(--slate-200);
+    border-radius:10px;
+    padding:8px 12px;
+    text-align:left;
+  }
+  .org-cargo{
+    display:flex;justify-content:space-between;gap:10px;
+    padding:6px 2px;border-bottom:1px solid var(--slate-100);
+    font-size:11.4px;
+  }
+  .org-cargo:last-child{border-bottom:none;}
+  .org-cargo .who{font-weight:700;color:var(--slate-900);flex:none;max-width:44%;}
+  .org-cargo .who small{display:block;font-weight:500;color:var(--slate-500);font-size:10.2px;margin-top:1px;}
+  .org-cargo .fn{color:var(--slate-600);text-align:right;flex:1;}
+  .org-cargo.vago .who{color:var(--red);}
+
+  /* célula/sub-pilar liderado (ex.: Logística & Expedição sob o Gilberto) */
+  .org-subteam{
+    margin:12px 0 2px 10px;
+    padding:12px 14px 4px;
+    background:var(--green-100);
+    border:1px solid var(--green-200);
+    border-left:3px solid var(--green-600);
+    border-radius:10px;
+  }
+  .org-subteam .subteam-title{
+    font-size:10.8px;font-weight:800;text-transform:uppercase;letter-spacing:.03em;
+    color:var(--green-800);margin-bottom:8px;
+    display:flex;align-items:center;gap:6px;
+  }
+  .org-subteam .org-cargo.lead .who{color:var(--green-800);}
+  .org-subteam .org-cargo:not(.lead){
+    margin-left:18px;position:relative;padding-left:4px;
+  }
+  .org-subteam .org-cargo:not(.lead)::before{
+    content:"└";position:absolute;left:-16px;top:8px;color:var(--slate-300);font-size:11px;
+  }
+  .org-subteam .org-cargo:last-child{border-bottom:none;}
+
+  /* ---------- CONTROLS ---------- */
+  .controls{
+    display:flex;justify-content:space-between;align-items:center;
+    margin-bottom:14px;flex-wrap:wrap;gap:10px;
+  }
+  .controls h2{font-size:19px;margin:0;color:var(--green-900);}
+  .btns{display:flex;gap:10px;}
+  .btn{
+    border:1px solid var(--green-600);
+    background:var(--white);
+    color:var(--green-700);
+    padding:9px 16px;
+    border-radius:9px;
+    font-size:13px;font-weight:700;
+    cursor:pointer;
+    transition:.15s ease;
+  }
+  .btn:hover{background:var(--green-600);color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,77,59,.2);}
+  .btn:active{transform:translateY(0);box-shadow:none;}
+  .btn.solid{background:var(--green-700);color:#fff;}
+  .btn.solid:hover{background:var(--green-800);}
+
+  /* ---------- ACCORDION ---------- */
+  .accordion{display:flex;flex-direction:column;gap:14px;margin-bottom:40px;}
+  .acc-item{
+    background:var(--white);
+    border:1px solid var(--slate-200);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  .acc-header{
+    display:flex;align-items:center;gap:16px;
+    padding:18px 20px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .acc-header:hover{background:var(--green-100);}
+  .acc-num{
+    flex:none;width:40px;height:40px;border-radius:10px;
+    background:var(--green-800);color:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:800;font-size:15px;
+  }
+  .acc-titles{flex:1;min-width:0;}
+  .acc-titles .t1{font-size:16px;font-weight:700;color:var(--slate-900);}
+  .acc-titles .t2{font-size:12.8px;color:var(--slate-500);margin-top:2px;}
+  .status-badge{
+    flex:none;
+    font-size:11.5px;font-weight:700;
+    padding:5px 11px;border-radius:999px;
+    white-space:nowrap;
+  }
+  .status-badge.ok{background:var(--ok-bg);color:var(--green-700);}
+  .status-badge.amber{background:var(--amber-bg);color:var(--amber);}
+  .status-badge.red{background:var(--red-bg);color:var(--red);}
+  .chevron{
+    flex:none;width:20px;height:20px;color:var(--slate-500);
+    transition:transform .25s ease;
+  }
+  .acc-item.open .chevron{transform:rotate(180deg);}
+
+  .acc-body-wrap{
+    display:grid;
+    grid-template-rows:0fr;
+    transition:grid-template-rows .3s ease;
+  }
+  .acc-item.open .acc-body-wrap{grid-template-rows:1fr;}
+  .acc-body-inner{overflow:hidden;}
+  .acc-body{
+    padding:6px 22px 26px;
+    border-top:1px solid var(--slate-100);
+  }
+
+  .subsec{margin-top:22px;}
+  .subsec h4{
+    display:flex;align-items:center;gap:8px;
+    font-size:14px;color:var(--green-800);
+    margin:0 0 10px;
+    padding-top:14px;
+    border-top:1px dashed var(--slate-200);
+  }
+  .subsec:first-of-type h4{border-top:none;padding-top:0;}
+  .subsec p{font-size:13.8px;color:var(--slate-700);margin:0 0 8px;}
+  .subsec ul{margin:6px 0 0;padding-left:20px;font-size:13.6px;color:var(--slate-700);}
+  .subsec li{margin-bottom:6px;}
+
+  /* cargos table */
+  .cargo-table{width:100%;border-collapse:collapse;font-size:13.2px;margin-top:4px;}
+  .cargo-table th{
+    text-align:left;font-size:11.5px;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--slate-500);padding:8px 10px;border-bottom:2px solid var(--slate-200);
+  }
+  .cargo-table td{padding:10px;border-bottom:1px solid var(--slate-100);vertical-align:top;}
+  .cargo-table tr:last-child td{border-bottom:none;}
+  .pill{
+    display:inline-block;font-size:11px;font-weight:700;
+    padding:3px 9px;border-radius:999px;
+  }
+  .pill.filled{background:var(--ok-bg);color:var(--green-700);}
+  .pill.vago{background:var(--red-bg);color:var(--red);}
+  .raci-tag{
+    display:inline-block;font-size:10.5px;font-weight:700;
+    padding:2px 7px;border-radius:6px;margin:1px 3px 1px 0;
+    background:var(--slate-100);color:var(--slate-700);
+  }
+  .raci-tag.d{background:var(--green-800);color:#fff;}
+  .raci-tag.e{background:#e7f0fa;color:#1f5a8f;}
+
+  /* flow */
+  .flow{
+    display:grid;grid-template-columns:1fr auto 1fr auto 1fr;
+    gap:8px;align-items:stretch;margin-top:6px;
+  }
+  .flow .node{
+    background:var(--cream);
+    border:1px solid var(--slate-200);
+    border-radius:10px;
+    padding:13px 14px;
+  }
+  .flow .node .k{font-size:10.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--green-600);margin-bottom:4px;}
+  .flow .node .v{font-size:13px;color:var(--slate-800);}
+  .flow .arrow{display:flex;align-items:center;justify-content:center;color:var(--slate-300);font-size:20px;}
+
+  /* skills chips */
+  .skill-groups{display:flex;flex-direction:column;gap:12px;margin-top:4px;}
+  .skill-group .gname{font-size:12px;font-weight:700;color:var(--slate-500);margin-bottom:6px;}
+  .chips{display:flex;flex-wrap:wrap;gap:7px;}
+  .chip-sm{
+    font-size:12px;background:var(--green-100);color:var(--green-800);
+    border:1px solid var(--green-200);
+    padding:5px 10px;border-radius:8px;
+    font-family:'Consolas','SFMono-Regular',monospace;
+  }
+
+  /* status alert box */
+  .alert{
+    border-radius:10px;padding:14px 16px;font-size:13.4px;
+  }
+  .alert.ok{background:var(--ok-bg);border:1px solid var(--green-200);color:var(--green-800);}
+  .alert.amber{background:var(--amber-bg);border:1px solid #eeddb8;color:#7a5313;}
+  .alert.red{background:var(--red-bg);border:1px solid #f0cec8;color:#7a281d;}
+  .alert ul{margin:8px 0 0;padding-left:18px;}
+  .alert li{margin-bottom:6px;}
+
+  /* ---- View toggle (Organograma vs Painel de Eficiência & ROI) ---- */
+  .view-toggle{
+    display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap;
+  }
+  .view-btn{
+    font:inherit;font-weight:700;font-size:13.5px;
+    padding:11px 20px;border-radius:10px;cursor:pointer;
+    border:1px solid var(--slate-200);background:var(--white);
+    color:var(--slate-700);
+    transition:all .2s ease;
+    display:flex;align-items:center;gap:8px;
+  }
+  .view-btn:hover{border-color:var(--green-500);color:var(--green-800);transform:translateY(-1px);}
+  .view-btn.active{background:var(--green-800);border-color:var(--green-800);color:#fff;box-shadow:var(--shadow);}
+  .view-panel{display:none;}
+  .view-panel.active{display:block;}
+
+  /* ---- Painel de Eficiência & ROI ---- */
+  .roi-section{
+    background:var(--white);
+    border:1px solid var(--slate-200);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 32px 32px;
+    margin-bottom:26px;
+  }
+  .roi-section h2{margin:0 0 4px;font-size:17px;color:var(--green-900);}
+  .roi-section .cap{font-size:12.8px;color:var(--slate-500);margin-bottom:22px;}
+  .roi-section h3.block-title{
+    font-size:13.5px;color:var(--green-800);margin:0 0 12px;
+    display:flex;align-items:center;gap:8px;
+    padding-top:22px;border-top:1px dashed var(--slate-200);
+  }
+  .roi-section .subsec:first-of-type h3.block-title{border-top:none;padding-top:0;}
+  .roi-metrics{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:6px;
+  }
+  .roi-metric-card{
+    position:relative;overflow:hidden;
+    background:var(--cream);
+    border:1px solid var(--slate-200);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+  }
+  .roi-metric-card::before{
+    content:"";position:absolute;top:0;left:0;right:0;height:4px;
+    background:var(--green-500);
+  }
+  .roi-metric-card .num{font-size:28px;font-weight:800;color:var(--green-900);}
+  .roi-metric-card .label{font-size:13px;font-weight:700;color:var(--slate-800);margin-top:4px;}
+  .roi-metric-card .sub{font-size:11.8px;color:var(--slate-500);margin-top:3px;}
+
+  .ba-table-wrap{overflow-x:auto;}
+  .ba-table{width:100%;border-collapse:collapse;font-size:13px;min-width:680px;}
+  .ba-table th{
+    text-align:left;font-size:11.2px;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--slate-500);padding:9px 12px;border-bottom:2px solid var(--slate-200);
+  }
+  .ba-table td{padding:13px 12px;border-bottom:1px solid var(--slate-100);vertical-align:top;}
+  .ba-table tr:last-child td{border-bottom:none;}
+  .ba-table .setor-cell{font-weight:700;color:var(--slate-900);white-space:nowrap;}
+  .ba-antes .tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;background:var(--red-bg);color:var(--red);padding:2px 8px;border-radius:6px;margin-bottom:5px;}
+  .ba-depois .tag{display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;background:var(--ok-bg);color:var(--green-700);padding:2px 8px;border-radius:6px;margin-bottom:5px;}
+  .ba-antes .txt,.ba-depois .txt{display:block;color:var(--slate-700);font-size:12.8px;line-height:1.45;}
+  .ba-depois code{background:rgba(30,77,59,.08);padding:1px 6px;border-radius:5px;font-size:11.6px;color:var(--green-800);}
+
+  .sovereignty-widget{
+    display:flex;gap:16px;
+    background:linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 100%);
+    border-radius:var(--radius);
+    padding:22px 24px;
+    color:#fff;
+  }
+  .sovereignty-widget .ic{font-size:28px;line-height:1;flex:none;}
+  .sovereignty-widget h4{margin:0 0 6px;font-size:15px;color:#fff;}
+  .sovereignty-widget p{margin:0 0 10px;font-size:13.4px;color:var(--green-100);line-height:1.5;}
+  .sovereignty-widget .tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .sovereignty-widget .tags span{
+    font-size:11.5px;font-weight:700;background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.25);padding:4px 10px;border-radius:999px;
+  }
+
+  /* ---- Pilar de Soberania Tecnológica & Code-as-Context (fecho da aba ROI) ---- */
+  .sovereignty-pillar{
+    position:relative;overflow:hidden;
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 60%, var(--green-700) 100%);
+    border:1.5px solid var(--gold);
+    border-radius:var(--radius);
+    padding:26px 28px 24px;
+    box-shadow:0 6px 24px rgba(18,51,36,.25);
+    color:#fff;
+  }
+  .sovereignty-pillar::before{
+    content:"";position:absolute;top:-50px;left:-50px;width:200px;height:200px;
+    background:radial-gradient(circle, rgba(201,150,44,.22) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .sp-header{display:flex;align-items:center;gap:12px;margin-bottom:18px;position:relative;}
+  .sp-crown{
+    flex:none;width:44px;height:44px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-size:20px;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    border:2px solid var(--gold-light);
+    color:var(--green-900);
+  }
+  .sp-header h3{margin:0;font-size:15.5px;color:#fff;line-height:1.35;}
+  .sp-header h3 span{display:block;font-size:11px;font-weight:700;color:var(--gold-light);margin-top:3px;letter-spacing:.03em;}
+  .sp-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;position:relative;}
+  .sp-item{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,150,44,.5);
+    border-radius:12px;
+    padding:16px 16px 14px;
+  }
+  .sp-num{
+    width:26px;height:26px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12.5px;font-weight:800;
+    background:var(--gold);color:var(--green-900);
+    margin-bottom:10px;
+  }
+  .sp-text b{display:block;font-size:13px;color:var(--gold-light);margin-bottom:5px;}
+  .sp-text span{display:block;font-size:12.2px;color:var(--green-100);line-height:1.5;}
+
+  /* ---- Selo de Certificação & Onboarding de Lideranças ---- */
+  .cert-section{
+    position:relative;overflow:hidden;
+    background:linear-gradient(135deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%);
+    border:1px solid var(--gold);
+    border-radius:var(--radius);
+    box-shadow:var(--shadow);
+    padding:28px 32px 32px;
+    margin-bottom:26px;
+    color:#fff;
+  }
+  .cert-section::before{
+    content:"";position:absolute;top:-60px;right:-60px;width:220px;height:220px;
+    background:radial-gradient(circle, rgba(201,150,44,.25) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .cert-section h2{margin:0 0 4px;font-size:17px;color:#fff;display:flex;align-items:center;gap:8px;position:relative;}
+  .cert-section .cap{font-size:12.8px;color:var(--green-100);max-width:720px;margin:0 0 22px;position:relative;}
+  .cert-grid{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px;
+    position:relative;
+  }
+  .cert-card{
+    background:rgba(255,255,255,.06);
+    border:1px solid rgba(201,150,44,.55);
+    border-radius:12px;
+    padding:20px 16px 18px;
+    text-align:center;
+  }
+  .cert-badge{
+    width:52px;height:52px;border-radius:50%;margin:0 auto 12px;
+    display:flex;align-items:center;justify-content:center;font-size:22px;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    color:var(--green-900);
+    box-shadow:0 4px 14px rgba(0,0,0,.25);
+    border:2px solid var(--gold-light);
+  }
+  .cert-card .name{font-size:14.5px;font-weight:800;color:#fff;margin-bottom:3px;}
+  .cert-card .cert-title{font-size:11.8px;color:var(--gold-light);font-weight:700;line-height:1.4;}
+  .cert-seal-note{
+    display:flex;gap:10px;align-items:flex-start;
+    background:rgba(255,255,255,.07);
+    border:1px dashed var(--gold);
+    border-radius:10px;
+    padding:13px 16px;
+    font-size:12.2px;color:var(--green-100);line-height:1.5;
+    margin-bottom:18px;
+  }
+  .cert-seal-note .ic{flex:none;font-size:17px;}
+  .cert-seal-note b{color:var(--gold-light);}
+  .cert-impact{
+    background:rgba(0,0,0,.2);
+    border-left:3px solid var(--gold);
+    border-radius:10px;
+    padding:16px 18px;
+    font-size:13.4px;color:#fff;line-height:1.55;
+  }
+  .cert-impact b{color:var(--gold-light);}
+
+  footer{
+    max-width:1180px;margin:0 auto;padding:0 32px 50px;
+    color:var(--slate-500);font-size:12.5px;
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    border-top:1px solid var(--slate-200);padding-top:20px;
+  }
+
+  @media (max-width:900px){
+    .metrics{grid-template-columns:repeat(2,1fr);}
+    .org-row{grid-template-columns:1fr 1fr;}
+    .org-row::before{display:none;}
+    .org-node::before{display:none;}
+    .org-subtrunk{display:none;}
+    .flow{grid-template-columns:1fr;}
+    .flow .arrow{transform:rotate(90deg);padding:2px 0;}
+    .roi-metrics{grid-template-columns:repeat(2,1fr);}
+    .cert-grid{grid-template-columns:repeat(2,1fr);}
+    .sp-principles{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .metrics{grid-template-columns:1fr;}
+    header.hero{padding:34px 18px 30px;}
+    main{padding:24px 16px 60px;}
+    .acc-header{padding:14px;gap:10px;}
+    .acc-titles .t1{font-size:14.5px;}
+    .status-badge{display:none;}
+    .roi-metrics{grid-template-columns:1fr;}
+    .roi-section{padding:22px 18px 26px;}
+    .sovereignty-widget{flex-direction:column;}
+    .view-btn{flex:1;justify-content:center;}
+    .cert-grid{grid-template-columns:1fr;}
+    .cert-section{padding:22px 18px 26px;}
+    .sovereignty-pillar{padding:20px 18px;}
+    .sp-header{align-items:flex-start;}
+  }
+  @media print{
+    .btns{display:none;}
+    .view-toggle{display:none;}
+    .view-panel{display:block !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">🚗 ASAI Framework™ — AutoMotors Group (Demo)</div>
+    <h1>Mapa Operacional &amp; Governança — AutoMotors Group</h1>
+    <p class="lead">Demonstração white-label do ASAI Framework™ aplicada a um grupo de Indústria, Distribuição &amp; Concessionárias — cargos, RACI, fluxos operacionais, arsenal de copilotos e pontos de trava, no mesmo padrão executivo entregue a clientes reais.</p>
+    <div class="triade">
+      <div class="chip"><div class="dot">G</div><div class="txt"><b>Gilliard Galdino</b><span>Visão estratégica &amp; consultoria</span></div></div>
+      <div class="chip"><div class="dot">A360</div><div class="txt"><b>Axoly360</b><span>Arquitetura &amp; lógica</span></div></div>
+      <div class="chip"><div class="dot">IA</div><div class="txt"><b>IA Cognitiva</b><span>Execução técnica de disco</span></div></div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- DASHBOARD -->
+  <section class="metrics">
+    <div class="metric-card">
+      <div class="num">4</div>
+      <div class="label">Setores Mapeados</div>
+      <div class="sub">Growth &amp; Rede, Comercial B2B, Pós-Venda &amp; SAC, Logística &amp; Operações</div>
+    </div>
+    <div class="metric-card">
+      <div class="num">24</div>
+      <div class="label">Cargos &amp; Playbooks Documentados</div>
+      <div class="sub">+ 1 liderança executiva (Diretoria) no topo do organograma</div>
+    </div>
+    <div class="metric-card amber">
+      <div class="num">12</div>
+      <div class="label">Cargos "em homologação" (vagos)</div>
+      <div class="sub">Estrutura e RACI já modeladas, prontas para receber responsáveis</div>
+    </div>
+    <div class="metric-card">
+      <div class="num">40</div>
+      <div class="label">Skills Nativas Homologáveis</div>
+      <div class="sub">Copilotos de execução + onboarding + estrutura — arsenal replicável por setor</div>
+    </div>
+  </section>
+
+  <div class="callout">
+    <div class="ic">⚖️</div>
+    <div>
+      <h3>Princípio de Governança ASAI — Regra de Ouro</h3>
+      <p>Toda atividade do AutoMotors Group passa a ter obrigatoriamente <code>1 Decisor Único</code>, <code>1 Executor</code>, áreas <code>Consultadas</code> antes da decisão e áreas <code>Informadas</code> depois. Nenhuma atividade tem dois decisores simultâneos — este é o fio condutor dos 4 setores abaixo, e o critério usado para sinalizar cada ponto de trava.</p>
+    </div>
+  </div>
+
+  <!-- VIEW TOGGLE: Organograma vs Painel de Eficiência & ROI vs Certificação -->
+  <div class="view-toggle">
+    <button class="view-btn active" id="viewBtnOrg" data-view="org" aria-pressed="true">🗂️ Organograma-Síntese</button>
+    <button class="view-btn" id="viewBtnRoi" data-view="roi" aria-pressed="false">📊 Painel de Eficiência &amp; ROI</button>
+    <button class="view-btn" id="viewBtnCert" data-view="cert" aria-pressed="false">🏆 Certificação de Lideranças</button>
+  </div>
+
+  <!-- ORG CHART -->
+  <div class="orgchart view-panel active" id="view-org">
+    <h2>Organograma-Síntese</h2>
+    <div class="cap">Diretoria Executiva no topo, conectada aos 4 setores principais do grupo. Clique em qualquer caixa para ver cargos e funções resumidas. Cores indicam o status de homologação (ver legenda nos cards abaixo). Cargos mostrados como "em homologação" são placeholders prontos para receber os nomes reais da sua liderança.</div>
+    <div class="org-ceo"><div class="box">Diretoria Executiva<span>CEO / Presidência — AutoMotors Group</span></div></div>
+    <div class="org-trunk"></div>
+    <div class="org-row">
+
+      <!-- SETOR 01 — GROWTH, MARKETING & EXPANSÃO DE REDE -->
+      <div class="org-col">
+        <div class="org-unit" data-org="mkt">
+          <div class="org-node" role="button" tabindex="0" aria-expanded="false">
+            <div class="n">SETOR 01</div>
+            <div class="t">Growth, Marketing &amp; Expansão de Rede</div>
+            <div class="l">Gestor de Marketing &amp; Rede</div>
+            <div class="hint"><span class="txt">Clique para expandir</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="org-detail-wrap"><div class="org-detail-inner"><div class="org-detail">
+            <div class="org-cargo"><div class="who">a definir<small>Gestor de Marketing &amp; Rede (liderança do setor)</small></div><div class="fn">Decisor — mídia, CRM, funis digitais e expansão de rede</div></div>
+            <div class="org-cargo"><div class="who">a definir<small>Gestor de Growth</small></div><div class="fn">Decisor — performance, mídia paga, aquisição</div></div>
+            <div class="org-cargo"><div class="who">a definir<small>Coordenador de Expansão de Rede</small></div><div class="fn">Decisor — abertura e homologação de novos pontos</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Copywriter &amp; Conteúdo</small></div><div class="fn">Executor — copy institucional e de campanha</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Designer de Performance</small></div><div class="fn">Executor — peças de mídia paga</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Analista de CRM &amp; Automação</small></div><div class="fn">Executor — automações sob decisão do Growth</div></div>
+          </div></div></div>
+        </div>
+      </div>
+
+      <!-- SETOR 02 — COMERCIAL B2B, VENDA DE PEÇAS & CONCESSIONÁRIAS -->
+      <div class="org-col">
+        <div class="org-unit" data-org="com">
+          <div class="org-node amber" role="button" tabindex="0" aria-expanded="false">
+            <div class="n">SETOR 02</div>
+            <div class="t">Comercial B2B, Venda de Peças &amp; Concessionárias</div>
+            <div class="l">Diretor Comercial &amp; Vendas B2B</div>
+            <div class="hint"><span class="txt">Clique para expandir</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="org-detail-wrap"><div class="org-detail-inner"><div class="org-detail">
+            <div class="org-cargo"><div class="who">a definir<small>Diretor Comercial &amp; Vendas B2B (liderança do setor)</small></div><div class="fn">Decisor — distribuição de contas e condições comerciais</div></div>
+            <div class="org-cargo"><div class="who">a definir<small>Coordenador B2B</small></div><div class="fn">Decisor — operação regional de venda de peças/concessionárias</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Vendedor(a) B2B &amp; Concessionárias</small></div><div class="fn">Executor — funil generalista de peças e veículos</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>SDR — Prospecção de Concessionárias</small></div><div class="fn">Decisor — qualificação de novos pontos de venda</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Closer — Negociação B2B</small></div><div class="fn">Decisor — desconto e fechamento dentro da política</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>KAM / Customer Success B2B</small></div><div class="fn">Decisor — acompanhamento de conta e sell-out</div></div>
+          </div></div></div>
+        </div>
+      </div>
+
+      <!-- SETOR 03 — PÓS-VENDA, GARANTIA & ATENDIMENTO/SAC -->
+      <div class="org-col">
+        <div class="org-unit" data-org="posvenda">
+          <div class="org-node red" role="button" tabindex="0" aria-expanded="false">
+            <div class="n">SETOR 03</div>
+            <div class="t">Pós-Venda, Garantia &amp; Atendimento ao Cliente/SAC</div>
+            <div class="l">Gestor de Pós-Venda &amp; Garantia</div>
+            <div class="hint"><span class="txt">Clique para expandir</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="org-detail-wrap"><div class="org-detail-inner"><div class="org-detail">
+            <div class="org-cargo"><div class="who">a definir<small>Gestor de Pós-Venda &amp; Garantia (liderança do setor)</small></div><div class="fn">Decisor — acionamento de garantia e política de pós-venda</div></div>
+            <div class="org-cargo"><div class="who">a definir<small>Líder de Pós-Venda</small></div><div class="fn">Decisor — fila de atendimento e priorização de casos</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Analista de Garantia de Fábrica</small></div><div class="fn">Executor — análise técnica e enquadramento de garantia</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Operador(a) SAC</small></div><div class="fn">Decisor — resolver na 1ª linha vs. escalar</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Analista de Trocas/Devolução &amp; Logística Reversa</small></div><div class="fn">Executor — classificação e aprovação dentro da política</div></div>
+            <div class="org-cargo vago"><div class="who">a definir<small>Gestor(a) de Ouvidoria e Reclame Aqui</small></div><div class="fn">Decisor — resposta a caso crítico / Procon</div></div>
+          </div></div></div>
+        </div>
+      </div>
+
+      <!-- SETOR 04 — LOGÍSTICA, MONTAGEM & EXPEDIÇÃO -->
+      <div class="org-col">
+        <div class="org-unit" data-org="ops">
+          <div class="org-node amber" role="button" tabindex="0" aria-expanded="false">
+            <div class="n">SETOR 04</div>
+            <div class="t">Logística, Montagem &amp; Expedição de Peças/Veículos</div>
+            <div class="l">Gestor de Operações &amp; Logística</div>
+            <div class="hint"><span class="txt">Clique para expandir</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></div>
+          </div>
+          <div class="org-detail-wrap"><div class="org-detail-inner"><div class="org-detail">
+            <div class="org-cargo"><div class="who">a definir<small>Gestor de Operações &amp; Logística (liderança do setor)</small></div><div class="fn">Decisor — gargalos, alocação do time, não-conformidades críticas</div></div>
+            <div class="org-cargo"><div class="who">a definir<small>Coordenador de Compras &amp; Suprimentos</small></div><div class="fn">Executor — cotação/recebimento de peças e insumos</div></div>
+
+            <div class="org-subteam">
+              <div class="subteam-title">📦 Equipe de Montagem &amp; Expedição</div>
+              <div class="org-cargo lead"><div class="who">a definir<small>Líder de Montagem &amp; PDI (Pré-Entrega)</small></div><div class="fn">Decisor/Líder — checklist de PDI, montagem e liberação para entrega</div></div>
+              <div class="org-cargo vago"><div class="who">a definir<small>Analista de Estoque de Peças</small></div><div class="fn">Executor — curva ABC e ponto de ressuprimento</div></div>
+              <div class="org-cargo vago"><div class="who">a definir<small>Gestor(a) de Logística e Fretes</small></div><div class="fn">Executor/Analista — transportadoras e OTIF</div></div>
+              <div class="org-cargo vago"><div class="who">a definir<small>Controller Financeiro</small></div><div class="fn">Consultado — margens, custo de frete e orçamento (em homologação)</div></div>
+            </div>
+          </div></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- PAINEL DE EFICIÊNCIA & ROI -->
+  <div class="roi-section view-panel" id="view-roi">
+    <h2>📊 Métricas de Eficiência Estimada &amp; ROI Operacional</h2>
+    <div class="cap">Estimativas de referência construídas a partir da comparação entre o processo manual típico do setor e o fluxo assistido por copilotos/skills do ASAI Framework™. Esta é uma versão de demonstração — os números finais são recalculados para a realidade operacional real de cada cliente.</div>
+
+    <div class="subsec">
+      <h3 class="block-title">🎯 Indicadores de Impacto Consolidado</h3>
+      <div class="roi-metrics">
+        <div class="roi-metric-card">
+          <div class="num">78%</div>
+          <div class="label">Redução Média do Tempo de Processos</div>
+          <div class="sub">Do disparo do pedido até o handover concluído, por setor</div>
+        </div>
+        <div class="roi-metric-card">
+          <div class="num">+240h</div>
+          <div class="label">Horas Economizadas Estimadas/Mês</div>
+          <div class="sub">Somatório das 4 esteiras operacionais mapeadas</div>
+        </div>
+        <div class="roi-metric-card">
+          <div class="num">~90%</div>
+          <div class="label">Redução de Erros de Compliance</div>
+          <div class="sub">Garantia de fábrica, normas técnicas (INMETRO/CONTRAN) e LGPD</div>
+        </div>
+        <div class="roi-metric-card">
+          <div class="num">40</div>
+          <div class="label">Copilotos &amp; Skills Ativos</div>
+          <div class="sub">40 Habilidades homologáveis para o AutoMotors Group</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3 class="block-title">⏱️ Antes vs. Depois — por Setor</h3>
+      <div class="ba-table-wrap">
+        <table class="ba-table">
+          <thead>
+            <tr>
+              <th style="width:19%;">Setor</th>
+              <th style="width:38%;">Antes (processo manual)</th>
+              <th style="width:43%;">Depois (assistido por skill/copiloto)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="setor-cell">Setor 01<br><span style="font-weight:500;color:var(--slate-500);font-size:11.8px;">Growth, Marketing &amp; Rede</span></td>
+              <td class="ba-antes"><span class="tag">Antes</span><span class="txt">12 dias para planejamento, briefing, criação de campanha e alinhamento com a rede de concessionárias</span></td>
+              <td class="ba-depois"><span class="tag">Depois</span><span class="txt">~40 minutos via <code>/iniciar-copiloto-marketing-rede</code> e Handover automático para Design/Growth</span></td>
+            </tr>
+            <tr>
+              <td class="setor-cell">Setor 02<br><span style="font-weight:500;color:var(--slate-500);font-size:11.8px;">Comercial B2B &amp; Concessionárias</span></td>
+              <td class="ba-antes"><span class="tag">Antes</span><span class="txt">48h para triagem de pedidos de peças, consulta de tabela B2B e emissão de proposta a concessionárias</span></td>
+              <td class="ba-depois"><span class="tag">Depois</span><span class="txt">~15 minutos via <code>/agente-triagem-comercial-b2b</code> e <code>/revisar-proposta-b2b</code></span></td>
+            </tr>
+            <tr>
+              <td class="setor-cell">Setor 03<br><span style="font-weight:500;color:var(--slate-500);font-size:11.8px;">Pós-Venda, Garantia &amp; SAC</span></td>
+              <td class="ba-antes"><span class="tag">Antes</span><span class="txt">24h a 48h para resposta e tratativa manual de acionamento de garantia e trocas</span></td>
+              <td class="ba-depois"><span class="tag">Depois</span><span class="txt">~5 minutos com resposta humanizada + protocolo de garantia via <code>/iniciar-copiloto-pos-venda-sac</code></span></td>
+            </tr>
+            <tr>
+              <td class="setor-cell">Setor 04<br><span style="font-weight:500;color:var(--slate-500);font-size:11.8px;">Logística, Montagem &amp; Expedição</span></td>
+              <td class="ba-antes"><span class="tag">Antes</span><span class="txt">Rotina manual de checagem de estoque de peças, fila de montagem/PDI e tratativa de atrasos de expedição</span></td>
+              <td class="ba-depois"><span class="tag">Depois</span><span class="txt">Análise de Ponto de Ressuprimento + trava de checklist de PDI instantânea via <code>/iniciar-copiloto-logistica-montagem</code></span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <h3 class="block-title">🔒 Valor Agregado &amp; Soberania</h3>
+      <div class="sovereignty-widget">
+        <div class="ic">🔒</div>
+        <div>
+          <h4>Soberania de Dados (Code-as-Context)</h4>
+          <p>Todo o IP operacional do AutoMotors Group — playbooks, RACI, políticas, skills e histórico de decisão — passa a ser registrado como código-fonte versionado, em disco privado e/ou repositório GitHub próprio da empresa. Sem dependência de assinatura de plataforma terceira para acessar, auditar ou evoluir esse conhecimento: o dado estratégico pertence ao AutoMotors Group, não a um fornecedor de SaaS.</p>
+          <div class="tags">
+            <span>Disco privado / GitHub próprio</span>
+            <span>Sem lock-in de plataforma</span>
+            <span>Auditável a qualquer momento</span>
+            <span>40 Habilidades versionadas como código</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="sovereignty-pillar">
+        <div class="sp-header">
+          <div class="sp-crown">👑</div>
+          <h3>O Santo Graal da Governança: Soberania &amp; Code-as-Context<span>ASAI Framework™</span></h3>
+        </div>
+        <div class="sp-principles">
+          <div class="sp-item">
+            <div class="sp-num">1</div>
+            <div class="sp-text"><b>Propriedade Intelectual em Disco</b><span>100% dos playbooks, contextos e regras de negócio gravados fisicamente em arquivos locais e versionados no GitHub Privado da empresa.</span></div>
+          </div>
+          <div class="sp-item">
+            <div class="sp-num">2</div>
+            <div class="sp-text"><b>Zero Dependence (Vendor Lock-in)</b><span>O AutoMotors Group não fica refém de ferramentas terceiras de automação ou assinaturas proprietárias; o cérebro de IA é patrimônio da marca.</span></div>
+          </div>
+          <div class="sp-item">
+            <div class="sp-num">3</div>
+            <div class="sp-text"><b>Blindagem de Dados &amp; LGPD</b><span>Contextos sensíveis (margens B2B, garantia, estoque de peças) operados sob a governança nativa de acesso do próprio cliente.</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SELO DE CERTIFICAÇÃO & ONBOARDING DE LIDERANÇAS -->
+  <div class="cert-section view-panel" id="view-cert">
+    <h2>🏆 Programa de Certificação ASAI™ — Operadores de Copiloto</h2>
+    <div class="cap">Modelo de certificação da liderança apta a operar o ecossistema de copilotos dentro da governança ASAI Framework™ — cada cargo certificado no arsenal de skills do próprio setor que lidera. Nesta versão demo, os cargos aparecem como placeholders para a liderança real do AutoMotors Group.</div>
+
+    <div class="cert-grid">
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Gestor de Marketing &amp; Rede</div>
+        <div class="cert-title">Certificado em Copilotos de Growth &amp; Expansão de Rede</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Diretor Comercial &amp; Vendas B2B</div>
+        <div class="cert-title">Certificado em Copilotos de Vendas B2B &amp; Concessionárias</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Gestor de Pós-Venda &amp; Garantia</div>
+        <div class="cert-title">Certificado em Copilotos de Pós-Venda, Garantia &amp; SAC</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-badge">🏅</div>
+        <div class="name">Gestor de Operações &amp; Logística</div>
+        <div class="cert-title">Certificado em Copilotos de Logística, Montagem &amp; Expedição</div>
+      </div>
+    </div>
+
+    <div class="cert-seal-note">
+      <div class="ic">🎖️</div>
+      <div><b>Selo do Badge:</b> Certificado de Proficiência em Governança, Etapa Zero e Engenharia de Copilotos Locais (ASAI Framework™).</div>
+    </div>
+
+    <div class="cert-impact">
+      <b>Nota de governança para a Diretoria:</b> a certificação garante que 100% da liderança do AutoMotors Group está apta a operar o ecossistema com zero risco de desalinhamento de margem, travas de compliance ou alucinações de dados.
+    </div>
+  </div>
+
+  <!-- CONTROLS -->
+  <div class="controls">
+    <h2>Setores &amp; Verticais</h2>
+    <div class="btns">
+      <button class="btn solid" id="btnExpand">Expandir Todos</button>
+      <button class="btn" id="btnCollapse">Recolher Todos</button>
+    </div>
+  </div>
+
+  <!-- ACCORDION -->
+  <div class="accordion" id="accordion">
+
+    <!-- ===================== SETOR 01 — GROWTH, MARKETING & REDE ===================== -->
+    <div class="acc-item">
+      <div class="acc-header">
+        <div class="acc-num">01</div>
+        <div class="acc-titles">
+          <div class="t1">🚗 Growth, Marketing &amp; Expansão de Rede</div>
+          <div class="t2">3 decisores únicos — Gestor de Marketing &amp; Rede · Gestor de Growth · Coordenador de Expansão · 6 cargos</div>
+        </div>
+        <div class="status-badge ok">✅ Modelo Homologável</div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="acc-body-wrap"><div class="acc-body-inner"><div class="acc-body">
+
+        <div class="subsec">
+          <h4>🎯 Objetivos e Escopo do Setor</h4>
+          <p>Motor de crescimento e expansão de rede do AutoMotors Group, dividido em domínios de decisão que não se sobrepõem: <b>Growth</b> (mídia paga, CRM, funis digitais e captura de leads para a rede) e <b>Expansão de Rede</b> (abertura, homologação e performance de novos pontos/concessionárias). Ambos reportam diretamente à Diretoria Executiva.</p>
+        </div>
+
+        <div class="subsec">
+          <h4>👥 Cargos e Playbooks Mapeados</h4>
+          <table class="cargo-table">
+            <tr><th>Cargo</th><th>Responsável</th><th>RACI — decide sobre</th><th>Status</th></tr>
+            <tr><td>Gestor de Marketing &amp; Rede</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Estratégia de marca, verba geral e expansão de rede</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Gestor de Growth</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Meta Ads, CRM, campanhas de aquisição para a rede</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Coordenador de Expansão de Rede</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Priorização e homologação de novos pontos</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Copywriter &amp; Conteúdo</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Copy institucional e de campanha</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Designer de Performance</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Peças de mídia paga — prioriza backlog com o Growth</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Analista de CRM &amp; Automação</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Automações sob decisão do Growth</td><td><span class="pill vago">Em homologação</span></td></tr>
+          </table>
+        </div>
+
+        <div class="subsec">
+          <h4>🔄 Fluxograma Operacional Resumido — Esteira de Lançamento de Campanha do Mês</h4>
+          <p>Ciclo mensal que estrutura o mês comercial/de mídia do grupo, do cruzamento estratégico entre Comercial e Growth até o disparo automático de pautas para toda a equipe de execução.</p>
+          <div class="flow">
+            <div class="node"><div class="k">Etapa Zero · Cruzamento Estratégico &amp; Contexto</div><div class="v">Cruzamento de Ofertas (Comercial → Growth) + Varredura de Contexto de Rede → Definição do Conceito, Condições e Peças do Mês</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Processo · Criação, Estruturação &amp; Matriz de Rede</div><div class="v">Acionamento do Copiloto (<code>/iniciar-copiloto-marketing-rede</code>) → Planilha de Campanha (Posição, Conceito, Headline, CTA e Vigência) + Copy para Meta Ads, Google Ads e CRM da Rede + Filtro de Compliance Técnico/Legal</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Handover · Disparo Automático &amp; Execução Criativa</div><div class="v">Disparo automático de pautas → Design (peças de campanha) · Comercial (regras de disparo para a rede) · Growth (subida de mídia paga)</div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🧰 Arsenal de Skills/Comandos Ativos (modelo)</h4>
+          <div class="skill-groups">
+            <div class="skill-group"><div class="gname">Estrutura &amp; Governança</div><div class="chips"><span class="chip-sm">/ver-estrutura-marketing-rede</span><span class="chip-sm">/ver-estrutura-empresa</span></div></div>
+            <div class="skill-group"><div class="gname">Copilotos de Execução</div><div class="chips"><span class="chip-sm">/iniciar-copiloto-marketing-rede</span><span class="chip-sm">/iniciar-copiloto-growth</span><span class="chip-sm">/iniciar-copiloto-expansao-rede</span><span class="chip-sm">/iniciar-copiloto-copywriter</span><span class="chip-sm">/iniciar-copiloto-designer-performance</span></div></div>
+            <div class="skill-group"><div class="gname">Onboarding Aprofundado</div><div class="chips"><span class="chip-sm">onboarding-gestor-marketing-rede</span><span class="chip-sm">onboarding-gestor-growth</span><span class="chip-sm">onboarding-copywriter</span><span class="chip-sm">onboarding-designer-performance</span></div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🚦 Status de Homologação e Pontos de Trava/Compliance</h4>
+          <div class="alert ok">
+            <b>✅ Modelo homologável</b> — estrutura, RACI e fluxo prontos para receber a equipe real do AutoMotors Group.
+            <ul>
+              <li><b>Compliance obrigatório:</b> nenhuma peça, copy ou criativo pode usar alegação técnica não comprovada sobre veículos/peças — sempre validar com o setor de Pós-Venda &amp; Garantia antes de publicar.</li>
+              <li>Todos os 6 cargos do setor estão "em homologação" nesta versão demo — prontos para receber nomes reais na implantação.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div></div></div>
+    </div>
+
+    <!-- ===================== SETOR 02 — COMERCIAL B2B, PEÇAS & CONCESSIONÁRIAS ===================== -->
+    <div class="acc-item">
+      <div class="acc-header">
+        <div class="acc-num">02</div>
+        <div class="acc-titles">
+          <div class="t1">🤝 Comercial B2B, Venda de Peças &amp; Concessionárias</div>
+          <div class="t2">Diretor Comercial &amp; Vendas B2B · 6 cargos (modelo em homologação)</div>
+        </div>
+        <div class="status-badge amber">🟡 Modelo Parcial</div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="acc-body-wrap"><div class="acc-body-inner"><div class="acc-body">
+
+        <div class="subsec">
+          <h4>🎯 Objetivos e Escopo do Setor</h4>
+          <p>Opera a venda B2B de peças, insumos e veículos para a rede (funil generalista) e estrutura um vertical especializado — prospecção (SDR) → negociação (Closer) → sucesso do cliente (KAM/CS) — além da expansão de novos pontos/concessionárias. O Diretor Comercial aplica a política já aprovada pela Diretoria; não a define sozinho.</p>
+        </div>
+
+        <div class="subsec">
+          <h4>👥 Cargos e Playbooks Mapeados</h4>
+          <table class="cargo-table">
+            <tr><th>Cargo</th><th>Responsável</th><th>RACI — decide sobre</th><th>Status</th></tr>
+            <tr><td>Diretor Comercial &amp; Vendas B2B</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Distribuição de contas, condições dentro da política, prioridade da equipe</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Coordenador B2B</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Operação regional de venda de peças/concessionárias</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Vendedor(a) B2B &amp; Concessionárias</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Funil generalista de peças e veículos</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>SDR — Prospecção de Concessionárias</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Qualificação de novos pontos de venda</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Closer — Negociação B2B</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Faixa de desconto dentro da política, fechamento</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>KAM / Customer Success B2B</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Intensidade de acompanhamento por conta</td><td><span class="pill vago">Em homologação</span></td></tr>
+          </table>
+        </div>
+
+        <div class="subsec">
+          <h4>🔄 Fluxograma Operacional Resumido</h4>
+          <div class="flow">
+            <div class="node"><div class="k">Etapa Zero</div><div class="v">SDR aplica filtro de qualificação (capacidade de compra, região, fit de rede) antes de avançar a conta</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Processo</div><div class="v">Closer apresenta proposta, aplica desconto dentro da política e fecha no CRM comercial</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Handover</div><div class="v">KAM/CS assume onboarding e reposição de peças · Expansão de Rede segue rito próprio até o mesmo handover</div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🧰 Arsenal de Skills/Comandos Ativos (modelo)</h4>
+          <div class="skill-groups">
+            <div class="skill-group"><div class="gname">Estrutura &amp; Execução</div><div class="chips"><span class="chip-sm">/ver-estrutura-comercial-b2b</span><span class="chip-sm">/iniciar-copiloto-comercial-b2b</span><span class="chip-sm">/iniciar-copiloto-vendas-b2b (hub SDR/Closer/KAM)</span></div></div>
+            <div class="skill-group"><div class="gname">Agentes Táticos</div><div class="chips"><span class="chip-sm">agente-triagem-comercial-b2b</span><span class="chip-sm">revisar-proposta-b2b</span><span class="chip-sm">agente-objecoes-b2b</span></div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🚦 Status de Homologação e Pontos de Trava/Compliance</h4>
+          <div class="alert amber">
+            <b>🟡 Modelo parcial</b> — estrutura completa e RACI documentados; preenchimento dos cargos é etapa de implantação com o cliente.
+            <ul>
+              <li><b>Consolidação a decidir na implantação:</b> convivência entre funil especializado (SDR → Closer) e funil generalista é decisão da liderança comercial real, não presumida no modelo.</li>
+              <li><b>Dependência cruzada:</b> análise de crédito B2B aprofundada depende do Controller Financeiro (Setor 04), também em homologação.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div></div></div>
+    </div>
+
+    <!-- ===================== SETOR 03 — PÓS-VENDA, GARANTIA & SAC ===================== -->
+    <div class="acc-item">
+      <div class="acc-header">
+        <div class="acc-num">03</div>
+        <div class="acc-titles">
+          <div class="t1">🎧 Pós-Venda, Garantia &amp; Atendimento ao Cliente/SAC</div>
+          <div class="t2">Gestor de Pós-Venda &amp; Garantia · 6 cargos (modelo em homologação)</div>
+        </div>
+        <div class="status-badge red">🔴 Ponto de Atenção Modelo</div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="acc-body-wrap"><div class="acc-body-inner"><div class="acc-body">
+
+        <div class="subsec">
+          <h4>🎯 Objetivos e Escopo do Setor</h4>
+          <p>Atendimento multicanal do cliente final (WhatsApp, e-mail, chat, redes sociais), acionamento de garantia de fábrica, trocas/devoluções/logística reversa e ouvidoria/crise de imagem (Reclame Aqui, Procon). Setor promovido a pilar próprio no modelo — na prática de muitos grupos automotivos, nasce como vertical do Comercial ou da Qualidade até ganhar estrutura dedicada.</p>
+        </div>
+
+        <div class="subsec">
+          <h4>👥 Cargos e Playbooks Mapeados</h4>
+          <table class="cargo-table">
+            <tr><th>Cargo</th><th>Responsável</th><th>RACI — decide sobre</th><th>Status</th></tr>
+            <tr><td>Gestor de Pós-Venda &amp; Garantia</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Acionamento de garantia e política de pós-venda</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Líder de Pós-Venda</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Prioridade da fila de atendimento</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Analista de Garantia de Fábrica</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Análise técnica e enquadramento de garantia</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Operador(a) SAC</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Resolver na 1ª linha vs. escalar</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Analista de Trocas/Devolução &amp; Logística Reversa</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Classificação do caso e aprovação dentro da política</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Gestor(a) de Ouvidoria e Reclame Aqui</td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Estratégia de resposta a caso crítico / Procon</td><td><span class="pill vago">Em homologação</span></td></tr>
+          </table>
+        </div>
+
+        <div class="subsec">
+          <h4>🔄 Fluxograma Operacional Resumido</h4>
+          <div class="flow">
+            <div class="node"><div class="k">Etapa Zero</div><div class="v">Operador SAC consulta pedido/veículo no DMS + aplica duplo filtro (compliance técnico + tom de voz) antes de qualquer resposta</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Processo</div><div class="v">Resolve na 1ª linha ou escala: Analista de Garantia (acionamento técnico) ou Gestor de Ouvidoria (reclamação pública/Procon)</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Handover</div><div class="v">Analista de Garantia aciona Logística (coleta/peça) + Financeiro (estorno/crédito) · Gestor de Ouvidoria informa a Diretoria imediatamente em caso crítico</div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🧰 Arsenal de Skills/Comandos Ativos (modelo)</h4>
+          <div class="skill-groups">
+            <div class="skill-group"><div class="gname">Execução &amp; Onboarding</div><div class="chips"><span class="chip-sm">/iniciar-copiloto-pos-venda-sac</span><span class="chip-sm">onboarding-pos-venda-sac</span></div></div>
+            <div class="skill-group"><div class="gname">Agentes Táticos</div><div class="chips"><span class="chip-sm">agente-garantia-fabrica</span><span class="chip-sm">agente-troca-logistica-reversa</span><span class="chip-sm">agente-resposta-reclame-aqui</span></div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🚦 Status de Homologação e Pontos de Trava/Compliance</h4>
+          <div class="alert red">
+            <b>🔴 Ponto de atenção do modelo, não resolvido</b> — típico de setores recém-promovidos a pilar próprio.
+            <ul>
+              <li><b>Sem SLA/ritos próprios ainda:</b> na implantação, o setor deve herdar interinamente a Matriz de SLA do Comercial até ter ritos dedicados.</li>
+              <li><b>Compliance obrigatório:</b> reclamação de defeito de segurança nunca é resolvida informalmente pelo SAC — sempre segue o protocolo formal de garantia e, se aplicável, recall.</li>
+              <li>Todos os cargos seguem "em homologação" nesta versão demo.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div></div></div>
+    </div>
+
+    <!-- ===================== SETOR 04 — LOGÍSTICA, MONTAGEM & EXPEDIÇÃO ===================== -->
+    <div class="acc-item">
+      <div class="acc-header">
+        <div class="acc-num">04</div>
+        <div class="acc-titles">
+          <div class="t1">📦 Logística, Montagem &amp; Expedição de Peças/Veículos</div>
+          <div class="t2">Gestor de Operações &amp; Logística · 6 cargos (modelo em homologação)</div>
+        </div>
+        <div class="status-badge amber">🟡 Modelo Parcial</div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+      </div>
+      <div class="acc-body-wrap"><div class="acc-body-inner"><div class="acc-body">
+
+        <div class="subsec">
+          <h4>🎯 Objetivos e Escopo do Setor</h4>
+          <p>Governa toda a cadeia do insumo/peça ao cliente final: compras/suprimentos, montagem &amp; PDI (Pré-Entrega de veículos), expedição/fulfillment de peças e gestão de fretes/transportadoras. Estoque disponível para venda é sempre reflexo sincronizado do DMS (Dealer Management System).</p>
+        </div>
+
+        <div class="subsec">
+          <h4>👥 Cargos e Playbooks Mapeados</h4>
+          <table class="cargo-table">
+            <tr><th>Cargo</th><th>Responsável</th><th>RACI — decide sobre</th><th>Status</th></tr>
+            <tr><td>Gestor de Operações &amp; Logística <span style="color:var(--slate-500);">(liderança do setor)</span></td><td>a definir</td><td><span class="raci-tag d">Decisor</span>Priorização de gargalos, alocação do time, não-conformidades críticas</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Coordenador de Compras &amp; Suprimentos</td><td>a definir</td><td><span class="raci-tag e">Executor</span>Cotação/recebimento de peças e insumos</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Líder de Montagem &amp; PDI <span style="color:var(--slate-500);">(líder da célula)</span></td><td>a definir</td><td><span class="raci-tag d">Decisor/Líder</span>Checklist de PDI, montagem e liberação para entrega</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Analista de Estoque de Peças <span style="color:var(--slate-500);">(célula Montagem)</span></td><td>a definir</td><td><span class="raci-tag e">Executor</span>Curva ABC e ponto de ressuprimento</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Gestor(a) de Logística e Fretes <span style="color:var(--slate-500);">(célula Montagem)</span></td><td>a definir</td><td><span class="raci-tag e">Executor/Analista</span>Transportadora por rota, sinistro em trânsito, OTIF</td><td><span class="pill vago">Em homologação</span></td></tr>
+            <tr><td>Controller Financeiro <span style="color:var(--slate-500);">(consultivo)</span></td><td>a definir</td><td><span class="raci-tag e">Consultado</span>Margens, custo de frete e orçamento ⚠️ escopo a formalizar na implantação</td><td><span class="pill vago">Em homologação</span></td></tr>
+          </table>
+        </div>
+
+        <div class="subsec">
+          <h4>🔄 Fluxograma Operacional Resumido</h4>
+          <div class="flow">
+            <div class="node"><div class="k">Etapa Zero</div><div class="v">Compras &amp; Suprimentos cota/recebe peças e insumos → confere especificação técnica antes da liberação</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Processo</div><div class="v">Montagem segue o checklist de PDI no DMS → Estoque monitora curva ABC/ressuprimento → Expedição separa por categoria e prioridade</div></div>
+            <div class="arrow">→</div>
+            <div class="node"><div class="k">Handover</div><div class="v">Logística &amp; Fretes escolhe transportadora e mede OTIF → estoque reflete no portal da rede/concessionárias</div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🧰 Arsenal de Skills/Comandos Ativos (modelo)</h4>
+          <div class="skill-groups">
+            <div class="skill-group"><div class="gname">Estrutura, Execução &amp; Onboarding</div><div class="chips"><span class="chip-sm">/ver-estrutura-logistica-montagem</span><span class="chip-sm">/iniciar-copiloto-logistica-montagem</span><span class="chip-sm">/iniciar-copiloto-compras-suprimentos</span><span class="chip-sm">/iniciar-copiloto-controller-financeiro</span></div></div>
+            <div class="skill-group"><div class="gname">Agentes Táticos</div><div class="chips"><span class="chip-sm">agente-checklist-pdi</span><span class="chip-sm">agente-gestao-fretes-otif</span></div></div>
+          </div>
+        </div>
+
+        <div class="subsec">
+          <h4>🚦 Status de Homologação e Pontos de Trava/Compliance</h4>
+          <div class="alert amber">
+            <b>🟡 Modelo parcial</b> — estrutura e RACI documentados; preenchimento dos cargos e ajuste fino do escopo do Controller Financeiro são etapas de implantação.
+            <ul>
+              <li><b>Ponto de atenção recorrente no setor:</b> o escopo do Controller Financeiro (margens, orçamento) costuma colidir com decisões do Comercial se não for formalizado desde o início — recomendação: fechar essa RACI antes de ativar o cargo.</li>
+              <li>Checklist de PDI e política de embalagem/frete são <b>modelos de referência</b> — devem ser ajustados à operação real do cliente antes de entrar em produção.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div></div></div>
+    </div>
+
+  </div>
+
+</main>
+
+<footer>
+  <span>ASAI Framework™ — Demo White-Label · Fonte: <code style="background:var(--slate-100);padding:1px 6px;border-radius:5px;">gestão de prospecção comercial — Tríade ASAI</code></span>
+  <span id="genDate"></span>
+</footer>
+
+<script>
+  // ---- Accordion toggle (Setores & Verticais) ----
+  var items = document.querySelectorAll('.acc-item');
+  items.forEach(function(item){
+    var header = item.querySelector('.acc-header');
+    header.addEventListener('click', function(){
+      item.classList.toggle('open');
+    });
+  });
+
+  // ---- Organograma-Síntese — caixas clicáveis/expansíveis ----
+  var orgUnits = document.querySelectorAll('.org-unit');
+  function setOrgUnitState(unit, open){
+    var node = unit.querySelector('.org-node');
+    var hintTxt = unit.querySelector('.hint .txt');
+    unit.classList.toggle('open', open);
+    if(node) node.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if(hintTxt) hintTxt.textContent = open ? 'Clique para recolher' : 'Clique para expandir';
+  }
+  orgUnits.forEach(function(unit){
+    var node = unit.querySelector('.org-node');
+    if(!node) return;
+    node.addEventListener('click', function(){
+      setOrgUnitState(unit, !unit.classList.contains('open'));
+    });
+    node.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        setOrgUnitState(unit, !unit.classList.contains('open'));
+      }
+    });
+  });
+
+  // ---- Botões globais: Expandir Todos / Recolher Todos ----
+  // Controlam tanto os 4 cards de Setores quanto as caixas do Organograma-Síntese.
+  document.getElementById('btnExpand').addEventListener('click', function(){
+    items.forEach(function(i){ i.classList.add('open'); });
+    orgUnits.forEach(function(u){ setOrgUnitState(u, true); });
+  });
+  document.getElementById('btnCollapse').addEventListener('click', function(){
+    items.forEach(function(i){ i.classList.remove('open'); });
+    orgUnits.forEach(function(u){ setOrgUnitState(u, false); });
+  });
+
+  // Open the first sector by default for a friendlier first view
+  if(items.length){ items[0].classList.add('open'); }
+
+  // ---- View toggle: Organograma-Síntese <-> Painel de Eficiência & ROI <-> Certificação de Lideranças ----
+  var viewBtns = document.querySelectorAll('.view-btn');
+  var viewPanels = document.querySelectorAll('.view-panel');
+  viewBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-view');
+      viewBtns.forEach(function(b){
+        var active = (b === btn);
+        b.classList.toggle('active', active);
+        b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+      viewPanels.forEach(function(panel){
+        panel.classList.toggle('active', panel.id === 'view-' + target);
+      });
+    });
+  });
+
+  // ---- Footer date ----
+  document.getElementById('genDate').textContent = 'Gerado em ' + new Date().toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+</script>
+
+</body>
+</html>
