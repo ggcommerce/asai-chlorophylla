@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Certificado ASAI™ — Modelo</title>
+<style>
+  :root{
+    --green-900:#123324;
+    --green-800:#1e4d3b;
+    --green-700:#245c3f;
+    --green-100:#e3f3e9;
+    --cream:#f7f8f4;
+    --white:#ffffff;
+    --gold:#c9962c;
+    --gold-light:#f0d48a;
+    --gold-dark:#8a6015;
+    --slate-700:#3d4450;
+    --slate-500:#6b7280;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Georgia', 'Times New Roman', serif;
+    background:var(--cream);
+    color:var(--slate-700);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    padding:28px 16px 60px;
+  }
+
+  /* ---- Painel de instruções (some na impressão/PDF) ---- */
+  .howto{
+    max-width:1000px;width:100%;
+    background:var(--white);
+    border:1px solid #e2e5ea;
+    border-radius:12px;
+    padding:18px 22px;
+    margin-bottom:24px;
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:13.4px;
+    color:var(--slate-700);
+    box-shadow:0 1px 2px rgba(18,51,36,.06), 0 6px 20px rgba(18,51,36,.06);
+  }
+  .howto h2{margin:0 0 8px;font-size:15px;color:var(--green-800);}
+  .howto ol{margin:0 0 6px;padding-left:20px;}
+  .howto li{margin-bottom:4px;}
+  .howto .tag{
+    display:inline-block;background:var(--green-100);color:var(--green-800);
+    font-size:11px;font-weight:700;padding:2px 8px;border-radius:6px;margin-right:6px;
+  }
+
+  /* ---- Certificado (o que vai pro PDF) ---- */
+  .cert-page{
+    width:1122px;max-width:100%;aspect-ratio:1.4142;
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%);
+    border-radius:6px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 10px 40px rgba(18,51,36,.35);
+    padding:14px;
+  }
+  .cert-inner{
+    position:relative;
+    height:100%;width:100%;
+    border:2px solid var(--gold);
+    border-radius:4px;
+    padding:46px 64px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    color:#fff;
+  }
+  .cert-page::before{
+    content:"";position:absolute;top:-120px;right:-120px;width:420px;height:420px;
+    background:radial-gradient(circle, rgba(201,150,44,.22) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .cert-page::after{
+    content:"";position:absolute;bottom:-120px;left:-120px;width:420px;height:420px;
+    background:radial-gradient(circle, rgba(201,150,44,.16) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+
+  .cert-eyebrow{
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--gold-light);margin-bottom:14px;
+  }
+  .cert-seal{
+    width:78px;height:78px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-size:34px;margin-bottom:16px;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    border:2px solid var(--gold-light);
+    color:var(--green-900);
+    box-shadow:0 6px 18px rgba(0,0,0,.3);
+  }
+  .cert-title{
+    font-size:30px;font-weight:700;color:#fff;margin:0 0 6px;letter-spacing:.01em;
+  }
+  .cert-subtitle{
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:12.5px;color:var(--green-100);letter-spacing:.06em;text-transform:uppercase;
+    margin-bottom:30px;
+  }
+
+  .cert-statement{
+    font-size:14.5px;color:var(--green-100);max-width:680px;line-height:1.7;margin-bottom:6px;
+  }
+  .cert-name{
+    font-size:36px;font-weight:700;color:var(--gold-light);
+    margin:14px 0 4px;
+    border-bottom:1.5px solid var(--gold);
+    padding-bottom:10px;
+    min-width:440px;
+  }
+  .cert-role{
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:13px;color:#fff;font-weight:600;margin-bottom:26px;
+  }
+
+  .cert-badge-text{
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:12.2px;color:var(--green-100);max-width:640px;line-height:1.6;
+    background:rgba(255,255,255,.07);
+    border:1px dashed var(--gold);
+    border-radius:10px;
+    padding:12px 18px;
+    margin-bottom:auto;
+  }
+
+  .cert-footer{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    margin-top:34px;
+    font-family:'Segoe UI', Arial, sans-serif;
+  }
+  .cert-sign{
+    text-align:center;min-width:220px;
+  }
+  .cert-sign .line{
+    border-top:1px solid var(--gold-light);
+    margin-bottom:6px;
+    padding-top:6px;
+    font-size:13px;color:#fff;font-weight:700;
+  }
+  .cert-sign .role{
+    font-size:10.5px;color:var(--green-100);text-transform:uppercase;letter-spacing:.05em;
+  }
+  .cert-meta{
+    text-align:right;font-size:10.8px;color:var(--green-100);line-height:1.6;
+  }
+  .cert-meta b{color:var(--gold-light);}
+
+  .cert-framework-mark{
+    position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+    font-family:'Segoe UI', Arial, sans-serif;
+    font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.1em;text-transform:uppercase;
+  }
+
+  @media print{
+    body{padding:0;background:#fff;}
+    .howto{display:none;}
+    .cert-page{
+      width:100%;aspect-ratio:auto;height:100vh;
+      box-shadow:none;border-radius:0;
+      page-break-inside:avoid;
+    }
+    @page{size:A4 landscape;margin:0;}
+  }
+  @media (max-width:900px){
+    .cert-inner{padding:30px 24px;}
+    .cert-title{font-size:22px;}
+    .cert-name{font-size:26px;min-width:0;width:100%;}
+    .cert-footer{flex-direction:column;gap:18px;align-items:center;text-align:center;}
+    .cert-meta{text-align:center;}
+  }
+</style>
+</head>
+<body>
+
+  <div class="howto">
+    <h2>Como emitir este certificado</h2>
+    <ol>
+      <li><span class="tag">1</span> Substitua os campos entre colchetes abaixo — <code>[NOME_DO_GESTOR]</code>, <code>[CARGO_E_SETOR]</code>, <code>[DATA_DE_EMISSAO]</code> — pelos dados reais do gestor aprovado no <code>DESAFIOS_AVALIACAO_POR_SETOR.md</code>.</li>
+      <li><span class="tag">2</span> Confira o texto do selo (já preenchido com o texto oficial do badge) e os dois signatários no rodapé.</li>
+      <li><span class="tag">3</span> Para gerar o PDF: abra este arquivo no navegador → <b>Imprimir</b> (Ctrl/Cmd+P) → destino "Salvar como PDF" → orientação Paisagem → margens "Nenhuma".</li>
+    </ol>
+    <p style="margin:8px 0 0;color:var(--slate-500);">Este painel de instruções não aparece na impressão/PDF.</p>
+  </div>
+
+  <div class="cert-page">
+    <div class="cert-inner">
+      <div class="cert-eyebrow">ASAI Framework™ — Chlorophylla</div>
+      <div class="cert-seal">🏆</div>
+      <h1 class="cert-title">Certificado de Proficiência</h1>
+      <div class="cert-subtitle">Programa de Certificação ASAI™ — Operadores de Copiloto</div>
+
+      <div class="cert-statement">Certificamos que</div>
+      <div class="cert-name">[NOME_DO_GESTOR]</div>
+      <div class="cert-role">[CARGO_E_SETOR — ex.: Gestora Comercial · Setor 02 — Comercial B2B &amp; Franquias]</div>
+
+      <div class="cert-statement">concluiu com aprovação os 3 pilares de treinamento e os desafios práticos de avaliação do setor, sendo reconhecido(a) como Líder Certificado(a) em Operação de IA dentro da governança do ASAI Framework™.</div>
+
+      <div class="cert-badge-text">Certificado de Proficiência em Governança, Etapa Zero e Engenharia de Copilotos Locais (ASAI Framework™).</div>
+
+      <div class="cert-footer">
+        <div class="cert-sign">
+          <div class="line">Gilliard Galdino</div>
+          <div class="role">Visão Estratégica · Tríade de Gestão</div>
+        </div>
+        <div class="cert-meta">
+          Emitido em <b>[DATA_DE_EMISSAO]</b><br>
+          Sob a governança da <b>CEO Chayza Dantas</b><br>
+          Chlorophylla · ASAI Framework™
+        </div>
+        <div class="cert-sign">
+          <div class="line">Chayza Dantas</div>
+          <div class="role">CEO / Diretoria Executiva</div>
+        </div>
+      </div>
+
+      <div class="cert-framework-mark">Soberania de Dados · Code-as-Context · Chlorophylla</div>
+    </div>
+  </div>
+
+</body>
+</html>
