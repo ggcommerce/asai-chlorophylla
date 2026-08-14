@@ -315,6 +315,15 @@
   }
   .exec-legend-note b{color:var(--gold-light);}
 
+  /* Organograma consolidado da Visão Geral — 4 colunas simétricas em paralelo, ligadas à mesma haste da Presidência */
+  .exec-columns.cols-4{max-width:1180px;flex-wrap:nowrap;}
+  .exec-columns.cols-4 .exec-col{flex:1 1 0;max-width:280px;}
+  .exec-bus-wrap.wide{max-width:1180px;}
+  .exec-legend-note.wide{max-width:1180px;}
+  @media (max-width:960px){
+    .exec-columns.cols-4{flex-wrap:wrap;}
+  }
+
   footer{
     text-align:center;padding:22px;font-size:11.5px;color:var(--slate-500);
     border-top:1px solid #e2e5ea;
@@ -348,7 +357,12 @@
 
   <div class="tabs-bar">
     <div class="tabs-row">
-      <button class="sector-tab-btn active" data-target="sector-01">
+      <button class="sector-tab-btn active" data-target="visao-geral">
+        <span class="tnum">🏛️</span>
+        <span class="tname">Visão Geral (Presidência)</span>
+        <span class="tleader">CEO: Chayza Dantas</span>
+      </button>
+      <button class="sector-tab-btn" data-target="sector-01">
         <span class="tnum">Setor 01</span>
         <span class="tname">Growth, Marketing & Conteúdo</span>
         <span class="tleader">Líder: Rafael</span>
@@ -373,8 +387,205 @@
 
   <main>
 
+    <!-- ===================== VISÃO GERAL / PRESIDÊNCIA ===================== -->
+    <section class="sector-panel active" id="visao-geral">
+      <div class="sector-head">
+        <div class="sector-icon">🏛️</div>
+        <div>
+          <h2>Visão Geral — Presidência & Governança Institucional</h2>
+          <p class="leader-tag">Presidência / CEO: <b>Chayza Dantas</b> <span style="color:var(--slate-500);">(topo da governança — fonte: <code>governance/politica_setor_digital.md</code>)</span></p>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">👑 Card Institucional da Presidência</p>
+        <p class="subsec-hint">Panorama consolidado da Chlorophylla, sem entrar no detalhe operacional de cada setor — para isso, use as 4 abas ao lado.</p>
+        <div class="bench-box">
+          <p class="btitle">🏛️ Chayza Dantas — CEO / Diretoria Executiva</p>
+          <ol>
+            <li><b>Decide:</b> arbitragem final de qualquer conflito de RACI não resolvido entre lideranças de setor (ex.: Vanessa × Controller e Gestor Financeiro no Setor 04), aprovação de investimento estratégico e leitura final do DRE Executivo consolidado.</li>
+            <li><b>Recebe (Informada):</b> DRE Executivo mensal (Setor 04), fechamento de esteira de vendas B2B (Setor 02), indicadores de aquisição/CRM (Setor 01) e riscos de compliance/SAC (Setor 03).</li>
+            <li><b>Modelo de atuação:</b> não decide a operação do dia a dia de nenhum setor — cada uma das 4 lideranças estratégicas é Decisora Única do seu vertical, pela Regra de Ouro (nenhuma atividade com dois decisores simultâneos).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">👥 Quadro Consolidado das Lideranças de Setor (4 Verticais Estratégicos)</p>
+        <p class="subsec-hint">Um Decisor Único por vertical, todos reportando diretamente à Presidência. Detalhe completo (time, cargos vagos, esteira) em cada aba de setor.</p>
+        <div class="copilot-grid">
+          <div class="copilot-card">
+            <div class="cname">Digital & Growth <span class="vago-flag" style="background:var(--ok-bg);color:var(--green-800);">Setor 01</span></div>
+            <div class="cfunc">Rafael (Growth) · Gilliard (Site) · Rodrigo (Diretor de Criação) — 3 decisores únicos, esteira de aquisição e CRM B2B.</div>
+            <div class="cmd-row"><code class="cmd-code">/ver-estrutura-marketing</code><button class="copy-btn" data-cmd="/ver-estrutura-marketing">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Comercial & Vendas B2B <span class="vago-flag" style="background:var(--ok-bg);color:var(--green-800);">Setor 02</span></div>
+            <div class="cfunc">Jaqueline (Líder Comercial & Expansão) — decisora única da aplicação operacional de vendas B2B e expansão de franquias.</div>
+            <div class="cmd-row"><code class="cmd-code">/ver-estrutura-comercial</code><button class="copy-btn" data-cmd="/ver-estrutura-comercial">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Qualidade, Operações & SAC <span class="vago-flag" style="background:var(--ok-bg);color:var(--green-800);">Setor 03</span></div>
+            <div class="cfunc">Rosângela (Qualidade/Líder Admin) · Raphael Lopes (Gestão de Gargalos & Alocação) — organograma, esteira de SAC e logística reversa.</div>
+            <div class="cmd-row"><code class="cmd-code">/ver-estrutura-operacional</code><button class="copy-btn" data-cmd="/ver-estrutura-operacional">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Financeiro, Margem & DRE <span class="vago-flag" style="background:var(--ok-bg);color:var(--green-800);">Setor 04</span></div>
+            <div class="cfunc">Vanessa (Líder Financeiro & DRE) — decisora única de caixa, pagamento e aprovação final do DRE antes da CEO.</div>
+            <div class="cmd-row"><code class="cmd-code">/ver-estrutura-financeiro</code><button class="copy-btn" data-cmd="/ver-estrutura-financeiro">Copiar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Diagrama do Fluxo Macro — Ecossistema de Ponta a Ponta (Lead → DRE)</p>
+        <p class="subsec-hint">Como um lead vira faturamento e, no fim do mês, vira linha do DRE — atravessando os 4 setores em sequência.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">📦 Esteira Macro — Do Lead ao DRE</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Meta Ads / RD Station</div><div class="erole">Setor 01 — Aquisição</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Kommo + Pipedrive</div><div class="erole">Setor 01/02 — Triagem & Qualificação</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Tray B2B</div><div class="erole">Setor 02 — Pedido & Vendas</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Aconos ERP</div><div class="erole">Setor 02/04 — Faturamento</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">SAC & Log. Reversa</div><div class="erole">Setor 03 — Pós-venda (quando houver)</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Conciliação & Margem</div><div class="erole">Setor 04 — Apuração de DRE</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Fechamento Mensal</div><div class="erole">Setor 04 → Presidência</div></div>
+          </div>
+          <p class="opflow-block-title second">⚖️ Matriz de Governança RACI Global & Ritos Decisórios</p>
+          <div class="rule-list">
+            <div class="rule-item"><span class="rico">🥇</span><div><p class="rtitle">Regra de Ouro (institucional, vale para os 4 setores)</p><p class="rtext">Nenhuma atividade tem dois decisores simultâneos. Cada vertical tem exatamente 1 Decisor Único, com Consultados antes e Informados depois — divergência de RACI entre setores é sempre escalada à CEO, nunca resolvida lateralmente entre líderes.</p></div></div>
+            <div class="rule-item"><span class="rico">🌱</span><div><p class="rtitle">Rito — Setor 01 (Digital & Growth)</p><p class="rtext">Rafael decide estratégia/mídia, Gilliard decide infraestrutura/verba geral, Rodrigo decide identidade visual — aprovação estética nunca pula o Diretor de Criação antes de publicar.</p></div></div>
+            <div class="rule-item"><span class="rico">🤝</span><div><p class="rtitle">Rito — Setor 02 (Comercial B2B)</p><p class="rtext">Jaqueline decide aplicação operacional de condições/descontos dentro da política já aprovada pelo Growth — política geral de desconto continua sendo decisão do Growth, nunca do Comercial isoladamente.</p></div></div>
+            <div class="rule-item"><span class="rico">🎧</span><div><p class="rtitle">Rito — Setor 03 (Operações & SAC)</p><p class="rtext">Rosângela decide qualidade/conformidade e liderança administrativa; Raphael Lopes decide priorização de gargalos e alocação de time — divisão de papéis vigente desde 2026-08-06 (mudança de reporte, não de RACI).</p></div></div>
+            <div class="rule-item"><span class="rico">💹</span><div><p class="rtitle">Rito — Setor 04 (Financeiro & DRE)</p><p class="rtext">Vanessa aprova o DRE final antes da CEO e decide prioridade de pagamento em caixa restrito. Conflito real e não resolvido: playbook do Controller e Gestor Financeiro propõe assumir os mesmos itens — pendência explícita de decisão da CEO, nunca presumida por este portal.</p></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Fluxograma Operacional & Esteira de Processos Globais</p>
+        <p class="subsec-hint">Versão granular do fluxo de ponta a ponta, estágio por estágio, um por setor — complementa o resumo executivo acima.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">🌱 Estágio 1 — Digital & Growth (Setor 01)</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Meta / Google Ads</div><div class="erole">Atração de Tráfego</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">RD Station</div><div class="erole">Captura de Leads</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">RD Station / Kommo</div><div class="erole">Nutrição</div></div>
+          </div>
+
+          <p class="opflow-block-title second">🤝 Estágio 2 — Comercial B2B (Setor 02)</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Outbound + Kommo</div><div class="erole">Prospecção / Triagem</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Pipedrive</div><div class="erole">Qualificação</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Tray B2B</div><div class="erole">Emissão do Pedido</div></div>
+          </div>
+
+          <p class="opflow-block-title second">🎧 Estágio 3 — Operações & SAC (Setor 03)</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Aconos ERP</div><div class="erole">Recebimento do Pedido</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Estoque</div><div class="erole">Conferência & Separação</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Expedição</div><div class="erole">Despacho</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">SAC</div><div class="erole">Suporte / Log. Reversa</div></div>
+          </div>
+
+          <p class="opflow-block-title second">💹 Estágio 4 — Financeiro & DRE (Setor 04)</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Aconos ERP</div><div class="erole">Faturamento</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Conciliação Bancária</div><div class="erole">Contas a Pagar/Receber</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Controladoria</div><div class="erole">Apuração de Margem</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">DRE Sintético</div><div class="erole">Setor 04 → Presidência</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">👥 Organograma & Alocação Executiva Consolidada</p>
+        <p class="subsec-hint">Presidência no topo · 4 lideranças estratégicas em paralelo (Setor 01 a 04) · time confirmado de execução, com os cargos ainda vagos em destaque. Detalhe completo por setor em cada aba/comando <code>/ver-estrutura-*</code>.</p>
+        <div class="opflow-card">
+          <div class="exec-hierarchy">
+            <div class="exec-ceo-box">Presidência<span class="cerole">CEO: Chayza Dantas</span></div>
+            <div class="exec-trunk-v"></div>
+            <div class="exec-bus-wrap wide"><div class="exec-bus"></div></div>
+            <div class="exec-columns cols-4">
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Rafael · Gilliard · Rodrigo</div><div class="drole2">Growth & Digital — Setor 01</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> aquisição/mídia (Rafael), infraestrutura técnica e verba geral (Gilliard), identidade visual (Rodrigo) — 3 decisores únicos do vertical.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Victor</div><div class="erolefunc">Copywriter & Redator</div></div>
+                  <div class="exec-team-chip"><div class="ename">Wendell</div><div class="erolefunc">Analista de E-commerce <i>(acumula c/ Designer de Performance)</i></div></div>
+                  <div class="exec-team-chip vago"><div class="ename">Sales OPS & CRM</div><div class="erolefunc">Governança de dados e automações</div><span class="vago-tag2">a definir</span></div>
+                </div>
+              </div>
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Jaqueline</div><div class="drole2">Comercial B2B — Setor 02</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> aplicação operacional de vendas B2B e expansão de franquias (política geral de desconto segue com o Growth).</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Karina</div><div class="erolefunc">Vendas B2B & Venda Direta</div></div>
+                  <div class="exec-team-chip"><div class="ename">Carol</div><div class="erolefunc">Vendas B2B & Venda Direta</div></div>
+                  <div class="exec-team-chip"><div class="ename">Mirelly</div><div class="erolefunc">Vendas B2B & Venda Direta</div></div>
+                  <div class="exec-team-chip vago"><div class="ename">SDR — Prospecção B2B</div><div class="erolefunc">Vertical Expansão B2B</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Closer — Negociação B2B</div><div class="erolefunc">Vertical Expansão B2B</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Expansão de Franquias</div><div class="erolefunc">Vertical Expansão B2B</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">KAM / Customer Success B2B</div><div class="erolefunc">Vertical Expansão B2B</div><span class="vago-tag2">a definir</span></div>
+                </div>
+              </div>
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Rosângela · Raphael Lopes</div><div class="drole2">Qualidade, Operações & SAC — Setor 03</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> qualidade/conformidade e liderança administrativa (Rosângela); priorização de gargalos e alocação de time (Raphael Lopes).</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Daniele Freitas</div><div class="erolefunc">Compras & Produção</div></div>
+                  <div class="exec-team-chip"><div class="ename">Gilberto</div><div class="erolefunc">Operações / Expedição</div></div>
+                  <div class="exec-team-chip"><div class="ename">Yasmim</div><div class="erolefunc">Atendimento / SAC</div></div>
+                  <div class="exec-team-chip vago"><div class="ename">Analista de Estoque e Inventário</div><div class="erolefunc">Vertical Operações</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Líder de Expedição e Fulfillment</div><div class="erolefunc">Vertical Operações</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Gestor(a) de Logística e Fretes</div><div class="erolefunc">Vertical Operações</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Operador(a) SAC B2C</div><div class="erolefunc">Vertical Atendimento/SAC</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Analista de Trocas e Log. Reversa</div><div class="erolefunc">Vertical Atendimento/SAC</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Gestor(a) de Ouvidoria e Reclame Aqui</div><div class="erolefunc">Vertical Atendimento/SAC</div><span class="vago-tag2">a definir</span></div>
+                </div>
+              </div>
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Vanessa</div><div class="drole2">Financeiro, Margem & DRE — Setor 04</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> prioridade de pagamento em caixa restrito e aprovação final de DRE antes da CEO.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Mikaely</div><div class="erolefunc">Analista Financeira</div></div>
+                  <div class="exec-team-chip"><div class="ename">Monalisa</div><div class="erolefunc">Auxiliar Financeira</div></div>
+                  <div class="exec-team-chip"><div class="ename">Rafaela</div><div class="erolefunc">Coordenadora de RH</div></div>
+                  <div class="exec-team-chip"><div class="ename">Marcela</div><div class="erolefunc">Coordenadora de DP</div></div>
+                  <div class="exec-team-chip vago"><div class="ename">Analista de Contas a Pagar e Receber</div><div class="erolefunc">Vertical Controladoria</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Analista de DRE e Performance</div><div class="erolefunc">Vertical Controladoria</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Controller e Gestor Financeiro</div><div class="erolefunc">Vertical Controladoria</div><span class="vago-tag2">a definir</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="exec-legend-note wide"><b>Vacâncias consolidadas (14 cargos, 2026-08-14):</b> 1 no Setor 01 (Sales OPS & CRM) · 4 no vertical de Expansão B2B do Setor 02 (SDR, Closer, Expansão de Franquias, KAM/CS) · 6 no vertical de Operações do Setor 03 (Estoque, Expedição, Logística, SAC B2C, Trocas, Ouvidoria) · 3 no vertical de Controladoria do Setor 04 (Contas a Pagar/Receber, DRE e Performance, Controller e Gestor Financeiro). Nenhum nome foi presumido — cargo sem fonte confirmando é sempre `a definir`. Detalhe completo, incluindo os 2 conflitos de RACI não resolvidos (Líder de Expedição × Gilberto; Operador SAC B2C × Yasmim; Vanessa × Controller), em cada comando <code>/ver-estrutura-*</code>.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== SETOR 01 ===================== -->
-    <section class="sector-panel active" id="sector-01">
+    <section class="sector-panel" id="sector-01">
       <div class="sector-head">
         <div class="sector-icon">🌱</div>
         <div>
@@ -938,13 +1149,29 @@
   // ---- Sector tab switching ----
   var tabBtns = document.querySelectorAll('.sector-tab-btn');
   var panels = document.querySelectorAll('.sector-panel');
+  function activateTarget(target){
+    var matchBtn = null;
+    tabBtns.forEach(function(b){ if(b.getAttribute('data-target') === target){ matchBtn = b; } });
+    if(!matchBtn) return false;
+    tabBtns.forEach(function(b){ b.classList.toggle('active', b === matchBtn); });
+    panels.forEach(function(p){ p.classList.toggle('active', p.id === target); });
+    return true;
+  }
   tabBtns.forEach(function(btn){
     btn.addEventListener('click', function(){
       var target = btn.getAttribute('data-target');
-      tabBtns.forEach(function(b){ b.classList.toggle('active', b === btn); });
-      panels.forEach(function(p){ p.classList.toggle('active', p.id === target); });
+      activateTarget(target);
+      if(history.pushState){ history.pushState(null, '', '#' + target); } else { window.location.hash = target; }
     });
   });
+
+  // ---- Hash routing (#visao-geral, #sector-01 ... #sector-04) ----
+  function applyHashRoute(){
+    var hash = (window.location.hash || '').replace('#', '');
+    if(hash){ activateTarget(hash); }
+  }
+  window.addEventListener('hashchange', applyHashRoute);
+  applyHashRoute();
 
   // ---- Copy command buttons ----
   var copyBtns = document.querySelectorAll('.copy-btn');
