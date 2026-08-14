@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jornada de Capacitação & Homologação de Lideranças — ASAI Framework™ (Chlorophylla)</title>
+<style>
+  :root{
+    --green-900:#123324;
+    --green-800:#1e4d3b;
+    --green-700:#245c3f;
+    --green-600:#2d6a4f;
+    --green-500:#40916c;
+    --green-400:#52b788;
+    --green-200:#b7e4c7;
+    --green-100:#e3f3e9;
+    --slate-900:#20242b;
+    --slate-700:#3d4450;
+    --slate-500:#6b7280;
+    --slate-300:#c3c9d1;
+    --slate-100:#eef0f3;
+    --cream:#f7f8f4;
+    --white:#ffffff;
+    --amber:#b4791f;
+    --amber-bg:#fbf1de;
+    --red:#a8382b;
+    --red-bg:#fbebe8;
+    --ok-bg:#e3f3e9;
+    --gold:#c9962c;
+    --gold-light:#f0d48a;
+    --gold-dark:#8a6015;
+    --shadow:0 1px 2px rgba(18,51,36,.06), 0 10px 30px rgba(18,51,36,.08);
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    background:var(--cream);
+    color:var(--slate-700);
+    line-height:1.5;
+  }
+  a{color:inherit;}
+
+  /* ---- Header ---- */
+  .hero{
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%);
+    color:#fff;
+    padding:44px 24px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-140px;right:-140px;width:460px;height:460px;
+    background:radial-gradient(circle, rgba(201,150,44,.20) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:1180px;margin:0 auto;position:relative;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold-light);margin-bottom:14px;
+  }
+  .seal-dot{
+    width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;
+    background:radial-gradient(circle at 32% 30%, var(--gold-light), var(--gold) 62%, var(--gold-dark));
+    color:var(--green-900);font-size:12px;box-shadow:0 2px 6px rgba(0,0,0,.25);
+  }
+  h1{font-size:30px;margin:0 0 10px;font-weight:800;letter-spacing:-.01em;}
+  .hero-sub{
+    max-width:760px;font-size:14.5px;color:var(--green-100);margin:0 0 18px;
+  }
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .htag{
+    font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;
+    background:rgba(255,255,255,.10);border:1px solid rgba(240,212,138,.35);color:#fff;
+  }
+
+  main{max-width:1180px;margin:0 auto;padding:34px 24px 60px;}
+
+  .section-title{
+    font-size:20px;font-weight:800;color:var(--green-900);margin:0 0 6px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .section-sub{font-size:13.5px;color:var(--slate-500);margin:0 0 22px;max-width:760px;}
+  section.block{margin-bottom:48px;}
+
+  /* ---- Timeline (4 Etapas) ---- */
+  .timeline{
+    display:grid;grid-template-columns:repeat(4, 1fr);gap:16px;
+  }
+  .tl-step{
+    background:var(--white);border:1px solid #e2e5ea;border-radius:var(--radius);
+    padding:20px 18px 18px;box-shadow:var(--shadow);position:relative;
+  }
+  .tl-num{
+    width:34px;height:34px;border-radius:50%;
+    background:linear-gradient(160deg, var(--green-700), var(--green-900));
+    color:#fff;font-weight:800;font-size:14px;
+    display:flex;align-items:center;justify-content:center;margin-bottom:12px;
+    border:2px solid var(--gold-light);
+  }
+  .tl-title{font-size:14.5px;font-weight:700;color:var(--green-900);margin:0 0 8px;}
+  .tl-desc{font-size:12.6px;color:var(--slate-500);margin:0;}
+  .tl-arrow{
+    display:none;
+  }
+  @media (min-width:900px){
+    .tl-step:not(:last-child)::after{
+      content:"›";position:absolute;top:20px;right:-14px;font-size:22px;font-weight:800;
+      color:var(--gold);z-index:2;
+    }
+  }
+
+  /* ---- Leader cards ---- */
+  .leader-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:18px;}
+  .leader-card{
+    background:var(--white);border:1px solid #e2e5ea;border-radius:var(--radius);
+    box-shadow:var(--shadow);overflow:hidden;
+  }
+  .lc-head{
+    display:flex;align-items:center;gap:14px;padding:18px 20px;cursor:pointer;
+    background:var(--green-100);border-bottom:1px solid #dce7e0;
+  }
+  .lc-head:hover{background:#d8ecdf;}
+  .lc-avatar{
+    width:46px;height:46px;border-radius:50%;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:19px;
+    background:linear-gradient(160deg, var(--green-600), var(--green-900));color:#fff;
+    border:2px solid var(--gold-light);
+  }
+  .lc-title{flex:1;min-width:0;}
+  .lc-name{font-size:15.5px;font-weight:800;color:var(--green-900);margin:0;}
+  .lc-sector{font-size:12px;color:var(--slate-500);margin:2px 0 0;}
+  .lc-chevron{font-size:16px;color:var(--green-700);transition:transform .2s ease;flex:0 0 auto;}
+  .leader-card.open .lc-chevron{transform:rotate(90deg);}
+  .lc-focus{
+    padding:14px 20px 4px;font-size:13px;color:var(--slate-700);
+  }
+  .lc-focus b{color:var(--green-800);}
+  .lc-body-wrap{display:grid;grid-template-rows:0fr;transition:grid-template-rows .25s ease;}
+  .lc-body{overflow:hidden;}
+  .leader-card.open .lc-body-wrap{grid-template-rows:1fr;}
+  .lc-body-inner{padding:6px 20px 20px;}
+  .lc-subtitle{
+    font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--gold-dark);margin:14px 0 8px;
+  }
+  .lc-cmd-list{display:flex;flex-wrap:wrap;gap:6px;}
+  .lc-cmd{
+    font-family:'Consolas','Courier New',monospace;font-size:11.2px;
+    background:var(--slate-100);border:1px solid var(--slate-300);border-radius:6px;
+    padding:4px 8px;color:var(--slate-700);
+  }
+  .lc-desafios{margin:0;padding-left:18px;}
+  .lc-desafios li{font-size:12.6px;color:var(--slate-700);margin-bottom:7px;}
+  .lc-desafios li b{color:var(--green-800);}
+
+  /* ---- Checklist ---- */
+  .checklist-card{
+    background:var(--white);border:1px solid #e2e5ea;border-radius:var(--radius);
+    box-shadow:var(--shadow);padding:22px 24px;
+  }
+  .progress-row{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+  .progress-track{
+    flex:1;height:12px;border-radius:999px;background:var(--slate-100);overflow:hidden;
+    border:1px solid var(--slate-300);
+  }
+  .progress-fill{
+    height:100%;width:0%;border-radius:999px;
+    background:linear-gradient(90deg, var(--green-500), var(--gold));
+    transition:width .3s ease;
+  }
+  .progress-label{font-size:13px;font-weight:700;color:var(--green-900);white-space:nowrap;}
+  .checklist-groups{display:grid;grid-template-columns:repeat(2, 1fr);gap:20px 28px;}
+  .cl-group h4{
+    font-size:12.5px;font-weight:800;color:var(--green-800);margin:0 0 10px;
+    text-transform:uppercase;letter-spacing:.04em;
+  }
+  .cl-item{
+    display:flex;align-items:flex-start;gap:9px;margin-bottom:10px;cursor:pointer;
+  }
+  .cl-item input{
+    margin-top:2px;width:16px;height:16px;accent-color:var(--green-700);cursor:pointer;flex:0 0 auto;
+  }
+  .cl-item span{font-size:13px;color:var(--slate-700);}
+  .cl-item input:checked ~ span{color:var(--slate-500);text-decoration:line-through;}
+
+  /* ---- Cert CTA ---- */
+  .cert-cta{
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 60%, var(--green-700) 100%);
+    border:1px solid var(--gold);border-radius:var(--radius);
+    padding:26px 28px;color:#fff;
+    display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;
+    box-shadow:var(--shadow);
+  }
+  .cert-cta-text h3{font-size:16.5px;margin:0 0 6px;color:#fff;}
+  .cert-cta-text p{font-size:12.8px;color:var(--green-100);margin:0;max-width:520px;}
+  .cert-cta-btn{
+    display:inline-flex;align-items:center;gap:8px;
+    background:linear-gradient(160deg, var(--gold-light), var(--gold));
+    color:var(--green-900);font-weight:800;font-size:13.5px;
+    padding:12px 20px;border-radius:10px;text-decoration:none;white-space:nowrap;
+    box-shadow:0 4px 14px rgba(0,0,0,.25);border:1px solid var(--gold-dark);
+  }
+  .cert-cta-btn:hover{filter:brightness(1.05);}
+
+  footer{
+    text-align:center;padding:22px;font-size:11.5px;color:var(--slate-500);
+    border-top:1px solid #e2e5ea;
+  }
+
+  @media (max-width:900px){
+    .timeline{grid-template-columns:1fr 1fr;}
+    .leader-grid{grid-template-columns:1fr;}
+    .checklist-groups{grid-template-columns:1fr;}
+  }
+  @media (max-width:560px){
+    .timeline{grid-template-columns:1fr;}
+    h1{font-size:24px;}
+    .cert-cta{flex-direction:column;align-items:flex-start;}
+  }
+  @media print{
+    .cert-cta-btn{display:none;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow"><span class="seal-dot">🏆</span> ASAI Framework™ — Programa de Certificação de Lideranças</div>
+      <h1>Jornada de Capacitação & Homologação de Lideranças — ASAI Framework™</h1>
+      <p class="hero-sub">Mapa operacional do treinamento das lideranças da Chlorophylla rumo ao Selo de Certificação ASAI™. Trilha construída a partir do <code>GUIA_ONBOARDING_CERTIFICACAO_ASAI.md</code> e do <code>DESAFIOS_AVALIACAO_POR_SETOR.md</code>, sob a governança da CEO Chayza Dantas.</p>
+      <div class="hero-tags">
+        <span class="htag">Gilliard Galdino · Visão Estratégica</span>
+        <span class="htag">Axoly360 · Arquitetura & Lógica</span>
+        <span class="htag">IA Cognitiva · Execução Técnica de Disco</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <section class="block">
+      <h2 class="section-title">🧭 Linha do Tempo da Capacitação — 4 Etapas</h2>
+      <p class="section-sub">Toda liderança percorre as mesmas 4 etapas antes de operar copilotos em produção e receber o certificado. Nenhuma etapa é opcional — Etapa Zero e Trava de Compliance são pontos inegociáveis.</p>
+      <div class="timeline">
+        <div class="tl-step">
+          <div class="tl-num">01</div>
+          <h3 class="tl-title">Imersão & Conceitos Fundamentais</h3>
+          <p class="tl-desc">Tríade de Gestão (quando acionar Gilliard, Axoly360 e IA Cognitiva), Soberania de Dados e o princípio de Code-as-Context. Base de governança antes de tocar qualquer copiloto.</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">02</div>
+          <h3 class="tl-title">Execução de Copilotos no Disco</h3>
+          <p class="tl-desc">Ciclo supervisionado dos comandos <code>/iniciar-copiloto-...</code> específicos do próprio setor, com Axoly360 e IA Cognitiva observando cada execução.</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">03</div>
+          <h3 class="tl-title">Protocolo da Etapa Zero & Trava de Compliance</h3>
+          <p class="tl-desc">Validação prática das travas de governança do setor — DRE e margem (Financeiro), ANVISA/CONAR (Marketing), CDC em troca/devolução (Operações & SAC).</p>
+        </div>
+        <div class="tl-step">
+          <div class="tl-num">04</div>
+          <h3 class="tl-title">Bench Test & Emissão da Certificação</h3>
+          <p class="tl-desc">Aplicação dos 3 desafios reais do <code>DESAFIOS_AVALIACAO_POR_SETOR.md</code>. Aprovação registrada por Gilliard Galdino gera o certificado via <code>MODELO_CERTIFICADO_ASAI.html</code>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title">👤 Trilha Personalizada por Líder / Setor</h2>
+      <p class="section-sub">Clique em cada card para abrir a suíte de copilotos sob condução do gestor e o resumo dos 3 desafios de avaliação do setor.</p>
+      <div class="leader-grid" id="leaderGrid">
+
+        <div class="leader-card" data-leader="rafael">
+          <div class="lc-head" role="button" aria-expanded="false" tabindex="0">
+            <div class="lc-avatar">🌱</div>
+            <div class="lc-title">
+              <p class="lc-name">Rafael <span style="font-weight:600;color:var(--slate-500);font-size:12px;">(nota: badge de Growth & Marketing — ver nota de nomenclatura no Guia sobre "Lopes")</span></p>
+              <p class="lc-sector">Setor 01 — Growth, Marketing & E-commerce</p>
+            </div>
+            <div class="lc-chevron">›</div>
+          </div>
+          <div class="lc-focus"><b>Foco desta trilha:</b> campanhas, copy com compliance ANVISA/CONAR e handover criativo correto para Design/Growth.</div>
+          <div class="lc-body-wrap"><div class="lc-body"><div class="lc-body-inner">
+            <div class="lc-subtitle">Suíte de copilotos sob condução</div>
+            <div class="lc-cmd-list">
+              <span class="lc-cmd">/iniciar-copiloto-copywriter</span>
+              <span class="lc-cmd">/iniciar-copiloto-designer-performance</span>
+              <span class="lc-cmd">/iniciar-copiloto-social-media</span>
+              <span class="lc-cmd">/iniciar-copiloto-site</span>
+              <span class="lc-cmd">/iniciar-copiloto-sales-ops</span>
+              <span class="lc-cmd">/iniciar-copiloto-diretor-criacao</span>
+              <span class="lc-cmd">/iniciar-copiloto-analista-ecommerce</span>
+            </div>
+            <div class="lc-subtitle">Resumo dos 3 desafios de avaliação</div>
+            <ol class="lc-desafios">
+              <li><b>Etapa Zero correta</b> — identificar que o cruzamento de ofertas vem antes da copy, recusando rodar o copiloto de copywriter sem o ângulo fechado.</li>
+              <li><b>Compliance não é opcional</b> — barrar peça com alegação terapêutica proibida (ANVISA/CONAR), mesmo sob pressão de prazo de disparo.</li>
+              <li><b>Handover correto</b> — acionar o Diretor de Criação como Decisor de estética antes de publicar, nunca decidir sozinho.</li>
+            </ol>
+          </div></div></div>
+        </div>
+
+        <div class="leader-card" data-leader="jaqueline">
+          <div class="lc-head" role="button" aria-expanded="false" tabindex="0">
+            <div class="lc-avatar">🤝</div>
+            <div class="lc-title">
+              <p class="lc-name">Jaqueline</p>
+              <p class="lc-sector">Setor 02 — Comercial B2B, Vendas & Expansão</p>
+            </div>
+            <div class="lc-chevron">›</div>
+          </div>
+          <div class="lc-focus"><b>Foco desta trilha:</b> triagem de leads SDR, tabela de condições B2B e construção de proposta comercial dentro da política aprovada.</div>
+          <div class="lc-body-wrap"><div class="lc-body"><div class="lc-body-inner">
+            <div class="lc-subtitle">Suíte de copilotos sob condução</div>
+            <div class="lc-cmd-list">
+              <span class="lc-cmd">/iniciar-copiloto-gestor-comercial</span>
+              <span class="lc-cmd">/iniciar-copiloto-vendas-b2b</span>
+            </div>
+            <div class="lc-subtitle">Resumo dos 3 desafios de avaliação</div>
+            <ol class="lc-desafios">
+              <li><b>Reconhecer o limite da própria decisão</b> — escalonar exceção de tabela ao Growth, nunca aprovar condição fora da política sozinha.</li>
+              <li><b>Triagem e SDR (cargo vago)</b> — saber quem responde pela qualificação ICP enquanto o cargo de SDR não é preenchido; copiloto acelera, não substitui decisor.</li>
+              <li><b>Consulta cruzada com Atendimento B2C</b> — reconhecer que casos de troca escalados por canal de atendimento exigem consulta com Operações, não resolução unilateral.</li>
+            </ol>
+          </div></div></div>
+        </div>
+
+        <div class="leader-card" data-leader="rosangela">
+          <div class="lc-head" role="button" aria-expanded="false" tabindex="0">
+            <div class="lc-avatar">⚙️</div>
+            <div class="lc-title">
+              <p class="lc-name">Rosângela</p>
+              <p class="lc-sector">Setor 04 — Qualidade, Operações & SAC</p>
+            </div>
+            <div class="lc-chevron">›</div>
+          </div>
+          <div class="lc-focus"><b>Foco desta trilha:</b> regras do CDC (Código de Defesa do Consumidor), troca/devolução e logística reversa.</div>
+          <div class="lc-body-wrap"><div class="lc-body"><div class="lc-body-inner">
+            <div class="lc-subtitle">Suíte de copilotos sob condução</div>
+            <div class="lc-cmd-list">
+              <span class="lc-cmd">/iniciar-copiloto-qualidade-e-pd</span>
+              <span class="lc-cmd">/iniciar-copiloto-gestor-operacoes</span>
+              <span class="lc-cmd">/iniciar-copiloto-logistica-e-expedicao</span>
+              <span class="lc-cmd">/iniciar-copiloto-atendimento-b2c</span>
+            </div>
+            <div class="lc-subtitle">Resumo dos 3 desafios de avaliação</div>
+            <ol class="lc-desafios">
+              <li><b>Ponto inegociável</b> — barrar liberação de lote sem validação de matéria-prima, mesmo sob pressão comercial de prazo.</li>
+              <li><b>Enquadramento Grau 1 × Grau 2</b> — classificar corretamente o produto conforme <code>context/compliance.md</code>, sem comprovação técnica prévia (Grau 1) ou com exigência de comprovação (Grau 2).</li>
+              <li><b>SAC subordinado, RACI em consolidação</b> — não presumir divisão de papéis nos cargos vagos de troca/devolução e ouvidoria; tratar como decisão pendente.</li>
+            </ol>
+          </div></div></div>
+        </div>
+
+        <div class="leader-card" data-leader="vanessa">
+          <div class="lc-head" role="button" aria-expanded="false" tabindex="0">
+            <div class="lc-avatar">📊</div>
+            <div class="lc-title">
+              <p class="lc-name">Vanessa</p>
+              <p class="lc-sector">Setor 03 — Financeiro & DRE</p>
+            </div>
+            <div class="lc-chevron">›</div>
+          </div>
+          <div class="lc-focus"><b>Foco desta trilha:</b> conciliação bancária, DRE sintético e trava de margem de contribuição.</div>
+          <div class="lc-body-wrap"><div class="lc-body"><div class="lc-body-inner">
+            <div class="lc-subtitle">Suíte de copilotos sob condução</div>
+            <div class="lc-cmd-list">
+              <span class="lc-cmd">/iniciar-copiloto-gestor-financeiro</span>
+              <span class="lc-cmd">/iniciar-copiloto-analista-financeiro</span>
+              <span class="lc-cmd">/iniciar-copiloto-auxiliar-financeiro</span>
+              <span class="lc-cmd">/iniciar-copiloto-coordenador-rh</span>
+              <span class="lc-cmd">/iniciar-copiloto-coordenador-dp</span>
+            </div>
+            <div class="lc-subtitle">Resumo dos 3 desafios de avaliação</div>
+            <ol class="lc-desafios">
+              <li><b>Conflito de RACI documentado</b> — reconhecer que a colisão de escopo com o cargo de Controller (vago) é decisão pendente da CEO, não algo a resolver sozinha.</li>
+              <li><b>Sigilo & LGPD</b> — barrar compartilhamento indevido de dado de folha de pagamento fora do setor sem autorização.</li>
+              <li><b>Conciliação sem alucinação de dado</b> — tratar divergência entre sistema e extrato bancário como escalonamento, sempre com conferência humana antes de fechar o número.</li>
+            </ol>
+          </div></div></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="block">
+      <h2 class="section-title">✅ Checklist Interativo do Aluno</h2>
+      <p class="section-sub">Marque as competências já concluídas durante o treinamento. O progresso é individual e serve de autoavaliação antes do Bench Test da Etapa 04.</p>
+      <div class="checklist-card">
+        <div class="progress-row">
+          <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+          <div class="progress-label" id="progressLabel">0 / 8 concluído</div>
+        </div>
+        <div class="checklist-groups">
+          <div class="cl-group">
+            <h4>Etapa 01 — Fundamentos</h4>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Recito a Regra de Ouro do meu setor (Decisor Único, Executor, Consultados, Informados) sem consultar o material.</span></label>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Sei explicar quando acionar cada papel da Tríade (Gilliard / Axoly360 / IA Cognitiva).</span></label>
+          </div>
+          <div class="cl-group">
+            <h4>Etapa 02 — Execução no Disco</h4>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Rodei ao menos 1 ciclo completo (Etapa Zero → Processo → Handover) do meu copiloto core, sob supervisão.</span></label>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Sei documentar o handover corretamente para o próximo responsável do fluxo.</span></label>
+          </div>
+          <div class="cl-group">
+            <h4>Etapa 03 — Compliance</h4>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Identifico os pontos de trava do meu setor que exigem escalonamento obrigatório à CEO.</span></label>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Sei diferenciar uma decisão que é minha de uma que é da CEO, sem presumir.</span></label>
+          </div>
+          <div class="cl-group">
+            <h4>Etapa 04 — Bench Test</h4>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Completei os 3 desafios do Roteiro de Avaliação do meu setor.</span></label>
+            <label class="cl-item"><input type="checkbox" class="cl-check"><span>Recebi aprovação registrada por Gilliard Galdino e emissão do certificado.</span></label>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block" style="margin-bottom:10px;">
+      <div class="cert-cta">
+        <div class="cert-cta-text">
+          <h3>🏆 Modelo do Certificado ASAI™</h3>
+          <p>Após aprovação nos 3 desafios do setor, o certificado é emitido a partir do modelo oficial — pronto para impressão em PDF (A4 paisagem).</p>
+        </div>
+        <a class="cert-cta-btn" href="MODELO_CERTIFICADO_ASAI.html" target="_blank" rel="noopener">Abrir Modelo do Certificado →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    ASAI Framework™ — Jornada de Capacitação & Homologação de Lideranças · Chlorophylla · Tríade de Gestão · Gerado em <span id="genDate"></span>
+  </footer>
+
+<script>
+  // ---- Leader card accordion ----
+  var leaderCards = document.querySelectorAll('.leader-card');
+  leaderCards.forEach(function(card){
+    var head = card.querySelector('.lc-head');
+    function toggle(){
+      var isOpen = card.classList.toggle('open');
+      head.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', function(e){
+      if(e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        toggle();
+      }
+    });
+  });
+
+  // ---- Checklist progress ----
+  var checks = document.querySelectorAll('.cl-check');
+  var fill = document.getElementById('progressFill');
+  var label = document.getElementById('progressLabel');
+  function updateProgress(){
+    var total = checks.length;
+    var done = 0;
+    checks.forEach(function(c){ if(c.checked) done++; });
+    var pct = total ? Math.round((done/total)*100) : 0;
+    fill.style.width = pct + '%';
+    label.textContent = done + ' / ' + total + ' concluído';
+  }
+  checks.forEach(function(c){ c.addEventListener('change', updateProgress); });
+  updateProgress();
+
+  // ---- Footer date ----
+  document.getElementById('genDate').textContent = new Date().toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+</script>
+
+</body>
+</html>
