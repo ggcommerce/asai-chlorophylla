@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portal Operacional dos Setores — ASAI Framework™ (Chlorophylla)</title>
+<style>
+  :root{
+    --green-900:#123324;
+    --green-800:#1e4d3b;
+    --green-700:#245c3f;
+    --green-600:#2d6a4f;
+    --green-500:#40916c;
+    --green-400:#52b788;
+    --green-200:#b7e4c7;
+    --green-100:#e3f3e9;
+    --slate-900:#20242b;
+    --slate-700:#3d4450;
+    --slate-500:#6b7280;
+    --slate-300:#c3c9d1;
+    --slate-100:#eef0f3;
+    --cream:#f7f8f4;
+    --white:#ffffff;
+    --amber:#b4791f;
+    --amber-bg:#fbf1de;
+    --red:#a8382b;
+    --red-bg:#fbebe8;
+    --ok-bg:#e3f3e9;
+    --gold:#c9962c;
+    --gold-light:#f0d48a;
+    --gold-dark:#8a6015;
+    --shadow:0 1px 2px rgba(18,51,36,.06), 0 12px 32px rgba(18,51,36,.10);
+    --radius:16px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Segoe UI', Arial, sans-serif;
+    color:var(--slate-700);
+    line-height:1.5;
+    background:
+      radial-gradient(circle at 8% 0%, rgba(64,145,108,.14) 0%, rgba(64,145,108,0) 45%),
+      radial-gradient(circle at 95% 10%, rgba(201,150,44,.12) 0%, rgba(201,150,44,0) 40%),
+      var(--cream);
+    min-height:100vh;
+  }
+  a{color:inherit;}
+  code{font-family:'Consolas','Courier New',monospace;}
+
+  /* ---- Header ---- */
+  .hero{
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 55%, var(--green-700) 100%);
+    color:#fff;
+    padding:38px 24px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero::before{
+    content:"";position:absolute;top:-140px;right:-140px;width:460px;height:460px;
+    background:radial-gradient(circle, rgba(201,150,44,.20) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .hero-inner{max-width:1240px;margin:0 auto;position:relative;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--gold-light);margin-bottom:12px;
+  }
+  h1{font-size:28px;margin:0 0 8px;font-weight:800;letter-spacing:-.01em;}
+  .hero-sub{max-width:760px;font-size:13.6px;color:var(--green-100);margin:0 0 16px;}
+  .hero-tags{display:flex;flex-wrap:wrap;gap:8px;}
+  .htag{
+    font-size:11.5px;font-weight:600;padding:6px 12px;border-radius:999px;
+    background:rgba(255,255,255,.10);border:1px solid rgba(240,212,138,.35);color:#fff;
+  }
+
+  /* ---- Sector tabs ---- */
+  .tabs-bar{
+    max-width:1240px;margin:-22px auto 0;padding:0 24px;position:relative;z-index:3;
+  }
+  .tabs-row{
+    display:grid;grid-template-columns:repeat(4, 1fr);gap:10px;
+    background:rgba(255,255,255,.7);
+    backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:var(--radius);
+    padding:8px;
+    box-shadow:var(--shadow);
+  }
+  .sector-tab-btn{
+    display:flex;flex-direction:column;align-items:flex-start;gap:2px;
+    padding:12px 14px;border-radius:11px;border:1px solid transparent;
+    background:transparent;cursor:pointer;text-align:left;
+    font-family:inherit;color:var(--slate-700);
+    transition:background .15s ease, border-color .15s ease;
+  }
+  .sector-tab-btn:hover{background:rgba(30,77,59,.06);}
+  .sector-tab-btn .tnum{font-size:10.5px;font-weight:800;color:var(--gold-dark);letter-spacing:.06em;text-transform:uppercase;}
+  .sector-tab-btn .tname{font-size:13px;font-weight:800;color:var(--green-900);}
+  .sector-tab-btn .tleader{font-size:11px;color:var(--slate-500);}
+  .sector-tab-btn.active{
+    background:linear-gradient(160deg, var(--green-800), var(--green-900));
+    border-color:var(--gold);
+  }
+  .sector-tab-btn.active .tnum{color:var(--gold-light);}
+  .sector-tab-btn.active .tname{color:#fff;}
+  .sector-tab-btn.active .tleader{color:var(--green-100);}
+
+  main{max-width:1240px;margin:0 auto;padding:26px 24px 60px;}
+
+  .sector-panel{display:none;}
+  .sector-panel.active{display:block;animation:fadein .2s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+
+  .sector-head{
+    display:flex;align-items:center;gap:16px;margin-bottom:26px;flex-wrap:wrap;
+  }
+  .sector-icon{
+    width:52px;height:52px;border-radius:14px;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+    background:linear-gradient(160deg, var(--green-600), var(--green-900));color:#fff;
+    border:2px solid var(--gold-light);box-shadow:var(--shadow);
+  }
+  .sector-head h2{font-size:21px;margin:0 0 3px;color:var(--green-900);font-weight:800;}
+  .sector-head .leader-tag{font-size:12.5px;color:var(--slate-500);}
+  .sector-head .leader-tag b{color:var(--gold-dark);}
+
+  .subsec{margin-bottom:32px;}
+  .subsec-title{
+    font-size:15.5px;font-weight:800;color:var(--green-900);margin:0 0 4px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .subsec-hint{font-size:12px;color:var(--slate-500);margin:0 0 16px;}
+
+  /* ---- Copilot cards (glassmorphism) ---- */
+  .copilot-grid{
+    display:grid;grid-template-columns:repeat(3, 1fr);gap:14px;
+  }
+  .copilot-card{
+    background:rgba(255,255,255,.72);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.8);
+    border-radius:13px;
+    padding:16px 16px 14px;
+    box-shadow:var(--shadow);
+    display:flex;flex-direction:column;gap:8px;
+  }
+  .copilot-card .cname{font-size:13.5px;font-weight:800;color:var(--green-900);line-height:1.3;}
+  .copilot-card .cname .vago-flag{
+    display:inline-block;font-size:9.5px;font-weight:700;color:var(--amber);
+    background:var(--amber-bg);border-radius:5px;padding:1px 6px;margin-left:5px;vertical-align:middle;
+  }
+  .copilot-card .cfunc{font-size:12px;color:var(--slate-500);flex:1;}
+  .cmd-row{
+    display:flex;align-items:center;gap:6px;margin-top:4px;
+  }
+  .cmd-code{
+    flex:1;min-width:0;
+    font-family:'Consolas','Courier New',monospace;font-size:10.8px;
+    background:var(--slate-100);border:1px solid var(--slate-300);border-radius:7px;
+    padding:6px 8px;color:var(--slate-700);
+    overflow-x:auto;white-space:nowrap;
+  }
+  .copy-btn{
+    flex:0 0 auto;
+    font-family:inherit;font-size:11px;font-weight:700;
+    background:linear-gradient(160deg, var(--green-700), var(--green-900));
+    color:#fff;border:none;border-radius:7px;padding:7px 10px;cursor:pointer;
+    transition:filter .15s ease, background .15s ease;
+    white-space:nowrap;
+  }
+  .copy-btn:hover{filter:brightness(1.12);}
+  .copy-btn.copied{background:linear-gradient(160deg, var(--gold-light), var(--gold));color:var(--green-900);}
+
+  /* ---- Compliance rules ---- */
+  .rule-list{display:flex;flex-direction:column;gap:10px;}
+  .rule-item{
+    display:flex;gap:12px;align-items:flex-start;
+    background:var(--red-bg);border:1px solid #f0cfc9;border-left:4px solid var(--red);
+    border-radius:10px;padding:12px 14px;
+  }
+  .rule-item .rico{font-size:16px;flex:0 0 auto;}
+  .rule-item .rtitle{font-size:12.8px;font-weight:800;color:var(--red);margin:0 0 3px;}
+  .rule-item .rtext{font-size:12.4px;color:var(--slate-700);margin:0;}
+
+  /* ---- Context bases ---- */
+  .ctx-table{width:100%;border-collapse:collapse;font-size:12.6px;}
+  .ctx-table th{
+    text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:.04em;
+    color:var(--slate-500);padding:8px 10px;border-bottom:2px solid var(--slate-300);
+  }
+  .ctx-table td{padding:10px;border-bottom:1px solid var(--slate-100);vertical-align:top;}
+  .ctx-table tr:last-child td{border-bottom:none;}
+  .ctx-table .fname{font-family:'Consolas','Courier New',monospace;font-size:11.4px;color:var(--green-800);font-weight:700;}
+  .ctx-table .fgap{color:var(--amber);font-weight:600;font-size:11px;}
+
+  /* ---- Bench test ---- */
+  .bench-box{
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 60%, var(--green-700) 100%);
+    border:1px solid var(--gold);border-radius:13px;
+    padding:20px 22px;color:#fff;
+  }
+  .bench-box .btitle{font-size:14.5px;font-weight:800;margin:0 0 10px;color:#fff;display:flex;align-items:center;gap:8px;}
+  .bench-box ol{margin:0;padding-left:18px;}
+  .bench-box li{font-size:12.6px;color:var(--green-100);margin-bottom:8px;line-height:1.5;}
+  .bench-box li b{color:var(--gold-light);}
+
+  /* ---- Fluxograma operacional (esteira + organograma executivo) ---- */
+  .opflow-card{
+    background:linear-gradient(160deg, var(--green-900) 0%, var(--green-800) 55%, var(--slate-900) 130%);
+    border:1px solid var(--gold);
+    border-radius:16px;
+    padding:22px 22px 24px;
+    color:#fff;
+    position:relative;
+    overflow:hidden;
+    box-shadow:var(--shadow);
+  }
+  .opflow-card::before{
+    content:"";position:absolute;top:-110px;right:-90px;width:320px;height:320px;
+    background:radial-gradient(circle, rgba(201,150,44,.20) 0%, rgba(201,150,44,0) 70%);
+    pointer-events:none;
+  }
+  .opflow-block-title{
+    font-size:11.5px;font-weight:800;text-transform:uppercase;letter-spacing:.06em;
+    color:var(--gold-light);margin:0 0 12px;display:flex;align-items:center;gap:7px;
+    position:relative;
+  }
+  .opflow-block-title.second{margin-top:24px;}
+
+  .esteira-row{
+    display:flex;align-items:stretch;gap:6px;overflow-x:auto;padding-bottom:8px;
+    position:relative;
+  }
+  .esteira-node{
+    flex:1 1 150px;min-width:150px;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid rgba(240,212,138,.35);
+    border-radius:12px;
+    padding:12px 12px 11px;
+    text-align:center;
+  }
+  .esteira-node .etool{font-size:12px;font-weight:800;color:#fff;margin-bottom:4px;line-height:1.25;}
+  .esteira-node .erole{font-size:10.4px;color:var(--green-100);line-height:1.35;}
+  .esteira-arrow{
+    flex:0 0 auto;display:flex;align-items:center;justify-content:center;
+    font-size:17px;color:var(--gold-light);font-weight:700;padding:0 1px;
+  }
+
+  .exec-tree{display:flex;flex-direction:column;align-items:center;gap:2px;position:relative;}
+  .exec-decisor{
+    background:linear-gradient(160deg, var(--gold-light), var(--gold));
+    color:var(--green-900);font-weight:800;font-size:12.4px;
+    border-radius:10px;padding:9px 18px;text-align:center;
+    border:1px solid var(--gold-dark);
+  }
+  .exec-decisor .drole{display:block;font-weight:600;font-size:9.8px;margin-top:2px;color:var(--green-900);opacity:.82;}
+  .exec-trunk{width:2px;height:14px;background:rgba(240,212,138,.5);}
+  .exec-team-row{
+    display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:4px;width:100%;
+  }
+  .exec-team-chip{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:9px;padding:8px 12px;text-align:center;min-width:150px;max-width:220px;
+  }
+  .exec-team-chip.vago{border-style:dashed;border-color:rgba(255,255,255,.4);}
+  .exec-team-chip .ename{font-size:11.4px;font-weight:700;color:#fff;}
+  .exec-team-chip .erolefunc{font-size:9.8px;color:var(--green-100);margin-top:2px;line-height:1.3;}
+  .exec-team-chip .vago-tag2{
+    display:inline-block;font-size:8.8px;font-weight:700;color:var(--gold-light);
+    background:rgba(201,150,44,.22);border-radius:5px;padding:1px 6px;margin-top:4px;
+  }
+
+  /* ---- Organograma CEO -> decisor(es) -> equipe, no padrão do fluxograma-marketing.pdf ---- */
+  .exec-hierarchy{display:flex;flex-direction:column;align-items:center;width:100%;}
+  .exec-ceo-box{
+    display:inline-block;
+    background:linear-gradient(160deg, var(--gold-light), var(--gold));
+    color:var(--green-900);font-weight:800;font-size:12.6px;
+    padding:9px 22px;border-radius:10px;border:1px solid var(--gold-dark);
+    text-align:center;
+  }
+  .exec-ceo-box .cerole{display:block;font-weight:600;font-size:9.6px;margin-top:2px;color:var(--green-900);opacity:.85;}
+  .exec-trunk-v{width:2px;height:12px;background:rgba(240,212,138,.55);}
+  .exec-bus-wrap{width:100%;max-width:920px;padding:0 4px;}
+  .exec-bus{height:2px;background:rgba(240,212,138,.55);width:100%;}
+  .exec-columns{
+    display:flex;gap:16px;width:100%;max-width:920px;justify-content:center;
+    flex-wrap:wrap;align-items:flex-start;margin-top:2px;
+  }
+  .exec-col{
+    flex:1 1 220px;max-width:300px;display:flex;flex-direction:column;align-items:center;
+  }
+  .exec-col-drop{width:2px;height:10px;background:rgba(240,212,138,.55);}
+  .exec-decisor-box{
+    width:100%;background:linear-gradient(160deg, var(--green-600), var(--green-900));
+    border:1px solid var(--gold-light);border-radius:10px;padding:9px 12px;text-align:center;
+  }
+  .exec-decisor-box .dname{font-size:12px;font-weight:800;color:#fff;line-height:1.3;}
+  .exec-decisor-box .drole2{font-size:9.6px;color:var(--green-100);margin-top:2px;line-height:1.3;}
+  .exec-decision-note{
+    background:rgba(222,218,200,.14);border:1px solid rgba(222,218,200,.4);
+    border-radius:8px;padding:7px 10px;font-size:9.6px;color:var(--green-100);
+    margin-top:6px;line-height:1.42;width:100%;
+  }
+  .exec-decision-note b{color:var(--gold-light);}
+  .exec-col-team{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;width:100%;justify-content:center;}
+  .exec-col-team .exec-team-chip{flex:1 1 118px;min-width:110px;max-width:none;}
+  .exec-legend-note{
+    width:100%;max-width:920px;margin:14px auto 0;
+    background:rgba(255,255,255,.06);border:1px solid rgba(240,212,138,.3);
+    border-radius:9px;padding:9px 12px;font-size:9.6px;color:var(--green-100);line-height:1.55;
+  }
+  .exec-legend-note b{color:var(--gold-light);}
+
+  footer{
+    text-align:center;padding:22px;font-size:11.5px;color:var(--slate-500);
+    border-top:1px solid #e2e5ea;
+  }
+
+  @media (max-width:960px){
+    .tabs-row{grid-template-columns:1fr 1fr;}
+    .copilot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){
+    .tabs-row{grid-template-columns:1fr;}
+    .copilot-grid{grid-template-columns:1fr;}
+    h1{font-size:22px;}
+  }
+</style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="eyebrow">🛰️ ASAI Framework™ — Central Operacional</div>
+      <h1>Portal Operacional dos Setores — Chlorophylla</h1>
+      <p class="hero-sub">Central interativa dos 4 setores operacionais: copilotos ativos, travas de compliance, bases de contexto conectadas e o desafio de certificação de cada líder. Arquivo isolado para validação, sob a governança da CEO Chayza Dantas.</p>
+      <div class="hero-tags">
+        <span class="htag">Gilliard Galdino · Visão Estratégica</span>
+        <span class="htag">Axoly360 · Arquitetura & Lógica</span>
+        <span class="htag">IA Cognitiva · Execução Técnica de Disco</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="tabs-bar">
+    <div class="tabs-row">
+      <button class="sector-tab-btn active" data-target="sector-01">
+        <span class="tnum">Setor 01</span>
+        <span class="tname">Growth, Marketing & Conteúdo</span>
+        <span class="tleader">Líder: Rafael</span>
+      </button>
+      <button class="sector-tab-btn" data-target="sector-02">
+        <span class="tnum">Setor 02</span>
+        <span class="tname">Vendas B2B & Expansão de Lojas</span>
+        <span class="tleader">Líder: Jaqueline</span>
+      </button>
+      <button class="sector-tab-btn" data-target="sector-03">
+        <span class="tnum">Setor 03</span>
+        <span class="tname">Qualidade, Operações & SAC</span>
+        <span class="tleader">Líder: Rosângela</span>
+      </button>
+      <button class="sector-tab-btn" data-target="sector-04">
+        <span class="tnum">Setor 04</span>
+        <span class="tname">Financeiro, Margem & DRE</span>
+        <span class="tleader">Líder: Vanessa</span>
+      </button>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- ===================== SETOR 01 ===================== -->
+    <section class="sector-panel active" id="sector-01">
+      <div class="sector-head">
+        <div class="sector-icon">🌱</div>
+        <div>
+          <h2>Setor 01 — Growth, Marketing & Conteúdo</h2>
+          <p class="leader-tag">Líder: <b>Rafael</b> <span style="color:var(--slate-500);">(nota: ver divergência de nomenclatura "Lopes" no Guia de Onboarding — badge deste setor usa "Rafael")</span></p>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🤖 Copilotos do Setor</p>
+        <p class="subsec-hint">9 cargos mapeados — comando de 1 clique por cargo. Clique em "Copiar" para levar o comando ao clipboard.</p>
+        <div class="copilot-grid">
+          <div class="copilot-card">
+            <div class="cname">Gestor de Growth (Rafael)</div>
+            <div class="cfunc">Estratégia B2C/B2B, Meta Ads, CRM, campanhas e priorização de backlog.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-gestor</code><button class="copy-btn" data-cmd="/iniciar-copiloto-gestor">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Gestor do Site (Gilliard)</div>
+            <div class="cfunc">Infraestrutura técnica, checkout, SEO/AEO e controle geral de verba.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-site</code><button class="copy-btn" data-cmd="/iniciar-copiloto-site">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Copywriter & Redator (Victor)</div>
+            <div class="cfunc">Copy de campanhas e peças, sob duplo filtro de compliance.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-copywriter</code><button class="copy-btn" data-cmd="/iniciar-copiloto-copywriter">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Diretor de Criação (Rodrigo)</div>
+            <div class="cfunc">Direção de arte, sistema visual e aprovação estética final.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-diretor-criacao</code><button class="copy-btn" data-cmd="/iniciar-copiloto-diretor-criacao">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Designer de Performance<span class="vago-flag">a definir</span></div>
+            <div class="cfunc">Criativos para Meta/Google/TikTok Ads dentro do sistema visual aprovado.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-designer-performance</code><button class="copy-btn" data-cmd="/iniciar-copiloto-designer-performance">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Analista de E-commerce (Wendell)</div>
+            <div class="cfunc">Cadastro técnico de produto, SEO on-page, SKU e estoque na Tray.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-analista-ecommerce</code><button class="copy-btn" data-cmd="/iniciar-copiloto-analista-ecommerce">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Social Media, Parcerias & Eventos<span class="vago-flag">a definir</span></div>
+            <div class="cfunc">Presença orgânica, influenciadores e eventos dentro do compliance de saúde.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-social-media</code><button class="copy-btn" data-cmd="/iniciar-copiloto-social-media">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Analista de Sales OPS & CRM<span class="vago-flag">a definir</span></div>
+            <div class="cfunc">Governança de dados, dashboards e automações de CRM (B2B/B2C).</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-sales-ops</code><button class="copy-btn" data-cmd="/iniciar-copiloto-sales-ops">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Agência de Performance / Tráfego Pago<span class="vago-flag">a definir</span></div>
+            <div class="cfunc">Estrutura tática de campanhas dentro da verba aprovada pelo Gestor do Site.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-gestor-performance</code><button class="copy-btn" data-cmd="/iniciar-copiloto-gestor-performance">Copiar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🛡️ Trava de Compliance & Etapa Zero</p>
+        <div class="rule-list">
+          <div class="rule-item"><span class="rico">🚦</span><div><p class="rtitle">Etapa Zero — Cruzamento de Ofertas</p><p class="rtext">Nenhuma copy é produzida antes do ângulo da oferta estar fechado. Rodar <code>/iniciar-copiloto-copywriter</code> sem essa etapa é bloqueado.</p></div></div>
+          <div class="rule-item"><span class="rico">⚕️</span><div><p class="rtitle">Compliance ANVISA / CONAR</p><p class="rtext">Qualquer alegação terapêutica (ex.: "cicatriza a pele") é barrada antes de publicar, mesmo sob pressão de prazo de disparo.</p></div></div>
+          <div class="rule-item"><span class="rico">🎨</span><div><p class="rtitle">Aprovação Estética Obrigatória</p><p class="rtext">Diretor de Criação (Rodrigo) é Decisor Único de identidade visual — handover para publicação nunca pula essa aprovação.</p></div></div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">📂 Bases de Contexto Conectadas</p>
+        <table class="ctx-table">
+          <tr><th>Fonte</th><th>Conteúdo</th></tr>
+          <tr><td class="fname">marketing/00_PROCESSOS_GLOBAIS.md</td><td>RACI oficial, ritos, fluxos de comunicação e esteira de aquisição do setor.</td></tr>
+          <tr><td class="fname">governance/matriz_raci.md</td><td>Matriz RACI institucional (Meta Ads, Google Ads, CRM, LPs, verba).</td></tr>
+          <tr><td class="fname">governance/politica_setor_digital.md</td><td>Governança e os 3 decisores únicos do canal digital.</td></tr>
+          <tr><td class="fname">context/compliance.md</td><td>Regras de compliance ANVISA/CONAR aplicadas à comunicação.</td></tr>
+          <tr><td class="fname">context/voice.md</td><td>Tom de voz e posicionamento de marca.</td></tr>
+          <tr><td class="fname">marketing/roles/01 a 09 (playbooks por cargo)</td><td>RACI individual, rotina operacional e responsável nomeado de cada cargo do setor.</td></tr>
+          <tr><td class="fname">MAPA_DE_COMANDOS.md</td><td>Índice mestre de comandos e changelog — resolve nomes/acúmulos de cargo não presentes nos playbooks isolados.</td></tr>
+        </table>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🚀 Desafio Prático / Bench Test — Rafael</p>
+        <div class="bench-box">
+          <p class="btitle">Contexto: disparo da campanha do mês com briefing incompleto</p>
+          <ol>
+            <li><b>Etapa Zero correta</b> — reconhecer que o cruzamento de ofertas vem antes da copy, recusando rodar o copiloto sem o ângulo fechado.</li>
+            <li><b>Compliance não é opcional</b> — barrar peça com alegação terapêutica proibida (ANVISA/CONAR), mesmo sob pressão de prazo.</li>
+            <li><b>Handover correto</b> — acionar o Diretor de Criação como Decisor de estética antes de publicar, nunca decidir sozinho.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Fluxograma Operacional & Esteira de Processos do Setor</p>
+        <p class="subsec-hint">Esteira de Aquisição, CRM & Automação B2B e organograma executivo — fonte: <code>marketing/00_PROCESSOS_GLOBAIS.md</code>, seção 2.1.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">📦 Esteira de Aquisição, CRM & Automação B2B</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Meta Ads</div><div class="erole">Captação B2B/B2C</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">RD Station</div><div class="erole">Nutrição / Landing Pages</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Kommo + WhatsApp</div><div class="erole">Triagem / Atendimento</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Pipedrive</div><div class="erole">Funil B2B — Karina/Carol/Mirelly</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Tray B2B</div><div class="erole">Pedido lançado</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Aconos (ERP)</div><div class="erole">Faturamento / NFe</div></div>
+          </div>
+
+          <p class="opflow-block-title second">👥 Organograma & Alocação Executiva do Setor</p>
+          <div class="exec-hierarchy">
+            <div class="exec-ceo-box">CEO / Diretoria Executiva<span class="cerole">Chayza Dantas</span></div>
+            <div class="exec-trunk-v"></div>
+            <div class="exec-bus-wrap"><div class="exec-bus"></div></div>
+            <div class="exec-columns">
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Gestor de Growth — Rafael</div><div class="drole2">Dono do "o que fazer para crescer"</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> estratégia B2C/B2B, campanhas/cupons, Meta Ads, CRM (RD Station, Kommo, Pipedrive), backlog de LPs/Banners/Testes A/B.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip vago"><div class="ename">Sales OPS & CRM</div><div class="erolefunc">Governança de dados e automações</div><span class="vago-tag2">a definir</span></div>
+                  <div class="exec-team-chip"><div class="ename">Wendell</div><div class="erolefunc">Designer de Performance <i>(acumula c/ Analista de E-commerce)</i></div></div>
+                </div>
+              </div>
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Gestor do Site — Gilliard</div><div class="drole2">Dono da infraestrutura técnica e verba geral</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> infraestrutura técnica, bugs/checkout, SEO/AEO, verba geral (incl. canal e teto do Google Ads), planejamento de receita anual.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Wendell</div><div class="erolefunc">Analista de E-commerce</div></div>
+                  <div class="exec-team-chip"><div class="ename">Tagg One</div><div class="erolefunc">Agência de Performance <i>(parceira externa)</i></div></div>
+                </div>
+              </div>
+              <div class="exec-col">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Diretor de Criação — Rodrigo</div><div class="drole2">Dono da identidade visual e aprovação estética</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> direção de arte, sistema visual, padrões de marca, aprovação estética final de peças, cadastro visual de produto.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Victor</div><div class="erolefunc">Copywriter & Redator</div></div>
+                  <div class="exec-team-chip"><div class="ename">André Filgueiras</div><div class="erolefunc">Social Media, Parcerias & Eventos</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="exec-legend-note"><b>Nuance de agrupamento (fixado em 2026-08-06):</b> Analista de E-commerce tem aprovação dupla (Gilliard + Rafael) e Designer de Performance consulta o Diretor de Criação para padrão de marca — mas ambos ficam agrupados por quem prioriza/aprova o backlog operacional (Site e Growth), não por quem consultam. <b>Wendell acumula dois cargos (confirmado diretamente com o usuário, registrado em <code>MAPA_DE_COMANDOS.md</code>):</b> Analista de E-commerce (decisor único da operação técnica na Tray) e Designer de Performance (produção de criativos de mídia paga) — não é duplicidade de fonte, é acúmulo real de função. <b>Nomes confirmados em 2026-08-14 via <code>MAPA_DE_COMANDOS.md</code>:</b> André Filgueiras (Social Media, Parcerias & Eventos) e Tagg One (Agência de Performance, parceira externa) — nenhum dos dois consta com nome nos playbooks <code>09</code>/<code>08</code> isoladamente, mas ambos são citados por nome no índice mestre de comandos do tenant. <b>Único cargo genuinamente vago do setor:</b> Sales OPS & CRM — sem nome em nenhuma fonte lida (playbook, RACI, índice de comandos).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SETOR 02 ===================== -->
+    <section class="sector-panel" id="sector-02">
+      <div class="sector-head">
+        <div class="sector-icon">🤝</div>
+        <div>
+          <h2>Setor 02 — Vendas B2B & Expansão de Lojas</h2>
+          <p class="leader-tag">Líder: <b>Jaqueline</b></p>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🤖 Copilotos do Setor</p>
+        <p class="subsec-hint">2 copilotos ativos na Matriz de Comandos. Os cargos de SDR, Closer, Expansão de Franquias e KAM têm playbook em <code>comercial/roles/</code>, mas seguem vagos — sem comando de copiloto confirmado nesta base.</p>
+        <div class="copilot-grid">
+          <div class="copilot-card">
+            <div class="cname">Gestora Comercial (Jaqueline)</div>
+            <div class="cfunc">Distribuição de leads, condições dentro da política aprovada, escalonamento de casos críticos.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-gestor-comercial</code><button class="copy-btn" data-cmd="/iniciar-copiloto-gestor-comercial">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Vendas B2B & Venda Direta (Karina, Carol, Mirelly)</div>
+            <div class="cfunc">Negociação e fechamento de propostas B2B e venda direta.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-vendas-b2b</code><button class="copy-btn" data-cmd="/iniciar-copiloto-vendas-b2b">Copiar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🛡️ Trava de Compliance & Etapa Zero</p>
+        <div class="rule-list">
+          <div class="rule-item"><span class="rico">🚫</span><div><p class="rtitle">Limite da Própria Decisão</p><p class="rtext">Jaqueline aplica a política comercial já aprovada pelo Growth — não decide a política geral de descontos. Exceção de tabela escala para o Growth.</p></div></div>
+          <div class="rule-item"><span class="rico">🔍</span><div><p class="rtitle">Triagem com Cargo Vago (SDR)</p><p class="rtext">Enquanto o SDR — Prospecção B2B estiver vago, a qualificação ICP não pode ser pulada só porque o copiloto existe. Copiloto acelera, não substitui decisor.</p></div></div>
+          <div class="rule-item"><span class="rico">🔄</span><div><p class="rtitle">Consulta Cruzada Obrigatória</p><p class="rtext">Casos de troca escalados pelo Atendimento B2C exigem consulta com Rosângela (Operações) — nunca resolução unilateral do Comercial.</p></div></div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">📂 Bases de Contexto Conectadas</p>
+        <table class="ctx-table">
+          <tr><th>Fonte</th><th>Conteúdo</th></tr>
+          <tr><td class="fname">comercial/00_PROCESSOS_GLOBAIS.md</td><td>Governança, RACI, ritos e fluxos oficiais do setor Comercial.</td></tr>
+          <tr><td class="fname">comercial/roles/04_SDR_PROSPECCAO_B2B.md</td><td>Playbook do cargo — vago, "a definir".</td></tr>
+          <tr><td class="fname">comercial/roles/05_CLOSER_NEGOCIACAO_B2B.md</td><td>Playbook do cargo — vago, "a definir".</td></tr>
+          <tr><td class="fname">comercial/roles/06_EXPANSAO_FRANQUIAS.md</td><td>Playbook do cargo — vago, "a definir".</td></tr>
+          <tr><td class="fname">comercial/roles/07_KAM_CUSTOMER_SUCCESS_B2B.md</td><td>Playbook do cargo — vago, "a definir".</td></tr>
+          <tr><td class="fname">Pipedrive / Kommo</td><td>CRM de Vendas B2B e triagem — ferramentas usadas pelo setor, configuradas pelo Growth.</td></tr>
+        </table>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🚀 Desafio Prático / Bench Test — Jaqueline</p>
+        <div class="bench-box">
+          <p class="btitle">Contexto: lead B2B de alto volume pedindo condição fora da tabela aprovada</p>
+          <ol>
+            <li><b>Reconhecer o limite da própria decisão</b> — escalonar exceção de tabela ao Growth, nunca aprovar condição fora da política sozinha.</li>
+            <li><b>Triagem e SDR (cargo vago)</b> — saber quem responde pela qualificação ICP enquanto o cargo não é preenchido.</li>
+            <li><b>Consulta cruzada com Atendimento B2C</b> — reconhecer que casos de troca escalados por canal de atendimento exigem consulta com Operações.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Fluxograma Operacional & Esteira de Processos do Setor</p>
+        <p class="subsec-hint">Esteira de leads e funil de vendas B2B e organograma executivo — fonte: <code>comercial/00_PROCESSOS_GLOBAIS.md</code>, seção 5.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">📦 Esteira de Leads & Funil de Vendas B2B</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Growth / RD Station</div><div class="erole">Nutrição do lead</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Kommo + WhatsApp</div><div class="erole">Triagem automatizada</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Gestora Comercial</div><div class="erole">Distribuição individual</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Pipedrive</div><div class="erole">Funil de Vendas B2B</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Tray B2B</div><div class="erole">Pedido lançado</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Aconos (ERP)</div><div class="erole">Faturamento / NFe</div></div>
+          </div>
+
+          <p class="opflow-block-title second">👥 Organograma & Alocação Executiva do Setor</p>
+          <div class="exec-hierarchy">
+            <div class="exec-ceo-box">CEO / Diretoria Executiva<span class="cerole">Chayza Dantas</span></div>
+            <div class="exec-trunk-v"></div>
+            <div class="exec-bus-wrap"><div class="exec-bus"></div></div>
+            <div class="exec-columns">
+              <div class="exec-col" style="max-width:520px;">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Gestora Comercial — Jaqueline</div><div class="drole2">Dona do "como a equipe vende e entrega meta"</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> distribuição de leads entre vendedoras, liberação de condições/descontos pontuais dentro da política já aprovada pelo Growth, prioridades de atendimento, escalonamento de casos críticos.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Karina / Carol / Mirelly</div><div class="erolefunc">Vendas B2B & Venda Direta</div></div>
+                  <div class="exec-team-chip vago"><div class="ename">SDR — Prospecção B2B</div><div class="erolefunc">Qualificação ICP</div><span class="vago-tag2">vago</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Closer — Negociação B2B</div><div class="erolefunc">Fechamento de propostas</div><span class="vago-tag2">vago</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">Expansão de Franquias</div><div class="erolefunc">Abertura de novas lojas</div><span class="vago-tag2">vago</span></div>
+                  <div class="exec-team-chip vago"><div class="ename">KAM / Customer Success B2B</div><div class="erolefunc">Retenção de contas B2B</div><span class="vago-tag2">vago</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="exec-legend-note"><b>Nota de RACI:</b> Jaqueline decide a aplicação operacional de uma condição já dentro da política vigente — a política geral de descontos/promoções é decisão do Growth (Rafael), não dela. Fonte: <code>comercial/00_PROCESSOS_GLOBAIS.md</code>, seção 2.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SETOR 03 ===================== -->
+    <section class="sector-panel" id="sector-03">
+      <div class="sector-head">
+        <div class="sector-icon">⚙️</div>
+        <div>
+          <h2>Setor 03 — Qualidade, Operações & SAC</h2>
+          <p class="leader-tag">Líder: <b>Rosângela</b> <span style="color:var(--slate-500);">(liderança administrativa do setor desde 2026-08-06)</span></p>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🤖 Copilotos do Setor</p>
+        <p class="subsec-hint">5 copilotos ativos — inclui o Atendimento B2C (Yasmim), migrado administrativamente de Comercial para Operações em 2026-08-06.</p>
+        <div class="copilot-grid">
+          <div class="copilot-card">
+            <div class="cname">Qualidade & P&D (Rosângela)</div>
+            <div class="cfunc">Aprovação/reprovação de lote e conformidade regulatória — decisora única.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-qualidade-e-pd</code><button class="copy-btn" data-cmd="/iniciar-copiloto-qualidade-e-pd">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Gestor de Operações (Raphael Lopes)</div>
+            <div class="cfunc">Priorização de gargalos entre compras, produção, qualidade e expedição.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-gestor-operacoes</code><button class="copy-btn" data-cmd="/iniciar-copiloto-gestor-operacoes">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Compras & Produção (Daniele Freitas)</div>
+            <div class="cfunc">PCP e disponibilidade de matéria-prima para a produção do dia.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-compras-e-producao</code><button class="copy-btn" data-cmd="/iniciar-copiloto-compras-e-producao">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Logística & Expedição (Gilberto)</div>
+            <div class="cfunc">Separação, embalagem, bipe e faturamento de expedição — SLA 24h úteis.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-logistica-e-expedicao</code><button class="copy-btn" data-cmd="/iniciar-copiloto-logistica-e-expedicao">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Atendimento B2C / SAC (Yasmim)</div>
+            <div class="cfunc">SAC e suporte de pré/pós-venda do consumidor final.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-atendimento-b2c</code><button class="copy-btn" data-cmd="/iniciar-copiloto-atendimento-b2c">Copiar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🛡️ Trava de Compliance & Etapa Zero</p>
+        <div class="rule-list">
+          <div class="rule-item"><span class="rico">⛔</span><div><p class="rtitle">Qualidade Nunca Sacrificada por Prazo</p><p class="rtext">Nenhum lote com matéria-prima nova sai para expedição sem passar pela validação de Rosângela, mesmo sob pressão comercial.</p></div></div>
+          <div class="rule-item"><span class="rico">⚕️</span><div><p class="rtitle">Enquadramento Grau 1 × Grau 2 (ANVISA)</p><p class="rtext">Classificação correta do produto conforme compliance antes de liberar — Grau 1 sem comprovação técnica prévia, Grau 2 com exigência de comprovação.</p></div></div>
+          <div class="rule-item"><span class="rico">📦</span><div><p class="rtitle">CDC — Trocas & Devoluções</p><p class="rtext">Arrependimento: até 7 dias corridos (Art. 49, CDC). Defeito/avaria: até 30 dias corridos (Art. 18, CDC). Frete sempre por conta da empresa.</p></div></div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">📂 Bases de Contexto Conectadas</p>
+        <table class="ctx-table">
+          <tr><th>Fonte</th><th>Conteúdo</th></tr>
+          <tr><td class="fname">operacoes/00_PROCESSOS_GLOBAIS.md</td><td>Governança, RACI, ritos e fluxos do setor Operações & Logística.</td></tr>
+          <tr><td class="fname">operacoes/context/politica_logistica_sintetica.md</td><td>Prazo de despacho (24h úteis), regras de embalagem por categoria, sinistro/extravio.</td></tr>
+          <tr><td class="fname">atendimento/context/politica_sac_sintetica.md</td><td>Política de trocas/devoluções (base CDC) e Matriz de Encantamento/cupom.</td></tr>
+          <tr><td class="fname">operacoes/roles/05_ANALISTA_ESTOQUE_E_INVENTARIO.md</td><td>Playbook de inventário — função fragmentada entre 3 cargos, consolidação pendente.</td></tr>
+          <tr><td class="fname">operacoes/roles/06_LIDER_EXPEDICAO_E_FULFILLMENT.md</td><td>Playbook de expedição e fulfillment.</td></tr>
+          <tr><td class="fname">operacoes/roles/07_GESTOR_LOGISTICA_E_FRETES.md</td><td>Playbook de gestão de fretes e transportadoras.</td></tr>
+        </table>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🚀 Desafio Prático / Bench Test — Rosângela</p>
+        <div class="bench-box">
+          <p class="btitle">Contexto: matéria-prima nova de fornecedor não homologado, com pressão comercial de prazo</p>
+          <ol>
+            <li><b>Ponto inegociável</b> — barrar liberação de lote sem validação, mesmo sob pressão comercial de prazo.</li>
+            <li><b>Enquadramento Grau 1 × Grau 2</b> — classificar corretamente o produto conforme <code>context/compliance.md</code>.</li>
+            <li><b>SAC subordinado, RACI em consolidação</b> — não presumir divisão de papéis nos cargos vagos de troca/devolução e ouvidoria.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Fluxograma Operacional & Esteira de Processos do Setor</p>
+        <p class="subsec-hint">Esteira de produção, qualidade e expedição e organograma executivo — fonte: <code>operacoes/00_PROCESSOS_GLOBAIS.md</code>, seções 2 e 5.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">📦 Esteira de Produção, Qualidade & Expedição</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Compras & Produção</div><div class="erole">PCP e matéria-prima — Daniele</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Qualidade & P&D</div><div class="erole">Aprovação de lote — Rosângela</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Gestor de Operações</div><div class="erole">Priorização de gargalos — Raphael</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Logística & Expedição</div><div class="erole">Separação/embalagem — Gilberto (24h úteis)</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Atendimento B2C / SAC</div><div class="erole">Pós-venda — Yasmim</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Aconos (ERP)</div><div class="erole">Estoque & faturamento de expedição</div></div>
+          </div>
+
+          <p class="opflow-block-title second">👥 Organograma & Alocação Executiva do Setor</p>
+          <div class="exec-hierarchy">
+            <div class="exec-ceo-box">CEO / Diretoria Executiva<span class="cerole">Chayza Dantas</span></div>
+            <div class="exec-trunk-v"></div>
+            <div class="exec-bus-wrap"><div class="exec-bus"></div></div>
+            <div class="exec-columns">
+              <div class="exec-col" style="max-width:520px;">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Qualidade & P&D — Rosângela</div><div class="drole2">Liderança administrativa do setor</div></div>
+                <div class="exec-decision-note"><b>Decide (inalterado):</b> aprovação/reprovação de lote e conformidade regulatória do produto — cronograma, compras e priorização de gargalos continuam com Raphael Lopes.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Raphael Lopes</div><div class="erolefunc">Gestor de Operações — gargalos e alocação do time</div></div>
+                  <div class="exec-team-chip"><div class="ename">Daniele Freitas</div><div class="erolefunc">Compras & Produção — PCP</div></div>
+                  <div class="exec-team-chip"><div class="ename">Gilberto</div><div class="erolefunc">Logística & Expedição</div></div>
+                  <div class="exec-team-chip"><div class="ename">Yasmim</div><div class="erolefunc">Atendimento B2C / SAC — migrada de Comercial em 2026-08-06</div></div>
+                </div>
+              </div>
+            </div>
+            <div class="exec-legend-note"><b>Nota de reporte:</b> mudança de linha de reporte (2026-08-06), não de RACI — cada cargo mantém seu escopo de decisão original. Fonte: <code>operacoes/00_PROCESSOS_GLOBAIS.md</code>, seção 2.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== SETOR 04 ===================== -->
+    <section class="sector-panel" id="sector-04">
+      <div class="sector-head">
+        <div class="sector-icon">📊</div>
+        <div>
+          <h2>Setor 04 — Financeiro, Margem & DRE</h2>
+          <p class="leader-tag">Líder: <b>Vanessa</b></p>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🤖 Copilotos do Setor</p>
+        <p class="subsec-hint">5 copilotos ativos, cobrindo Financeiro, RH e DP sob a mesma liderança.</p>
+        <div class="copilot-grid">
+          <div class="copilot-card">
+            <div class="cname">Gestora Financeira (Vanessa)</div>
+            <div class="cfunc">Prioridade de pagamentos em caixa restrito, aprovação final de relatórios/DRE.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-gestor-financeiro</code><button class="copy-btn" data-cmd="/iniciar-copiloto-gestor-financeiro">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Analista Financeira (Mikaely)</div>
+            <div class="cfunc">Conciliação diária de cartões/PIX/boletos com o extrato bancário.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-analista-financeiro</code><button class="copy-btn" data-cmd="/iniciar-copiloto-analista-financeiro">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Auxiliar Financeira (Monalisa)</div>
+            <div class="cfunc">Cobrança ativa e controle de estoque físico (Recife).</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-auxiliar-financeiro</code><button class="copy-btn" data-cmd="/iniciar-copiloto-auxiliar-financeiro">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Coordenadora de RH (Rafaela)</div>
+            <div class="cfunc">Processos seletivos, clima organizacional e treinamento.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-coordenador-rh</code><button class="copy-btn" data-cmd="/iniciar-copiloto-coordenador-rh">Copiar</button></div>
+          </div>
+          <div class="copilot-card">
+            <div class="cname">Coordenadora de DP (Marcela)</div>
+            <div class="cfunc">Folha de pagamento, ponto, admissões e desligamentos.</div>
+            <div class="cmd-row"><code class="cmd-code">/iniciar-copiloto-coordenador-dp</code><button class="copy-btn" data-cmd="/iniciar-copiloto-coordenador-dp">Copiar</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🛡️ Trava de Compliance & Etapa Zero</p>
+        <div class="rule-list">
+          <div class="rule-item"><span class="rico">🔒</span><div><p class="rtitle">Sigilo & LGPD</p><p class="rtext">Dados de folha, benefícios e processos seletivos nunca circulam fora do setor sem autorização de Vanessa ou da CEO.</p></div></div>
+          <div class="rule-item"><span class="rico">📐</span><div><p class="rtitle">Trava de Margem / DRE</p><p class="rtext">Conflito de RACI com o cargo de Controller (vago) é decisão pendente da CEO — não resolvida informalmente pelo setor.</p></div></div>
+          <div class="rule-item"><span class="rico">🧮</span><div><p class="rtitle">Conciliação Sem Alucinação de Dado</p><p class="rtext">Divergência entre o Aconos e o extrato bancário sempre exige conferência humana antes de fechar o número.</p></div></div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">📂 Bases de Contexto Conectadas</p>
+        <table class="ctx-table">
+          <tr><th>Fonte</th><th>Conteúdo</th></tr>
+          <tr><td class="fname">financeiro/00_PROCESSOS_GLOBAIS.md</td><td>Governança, RACI, ritos e fluxos do setor Financeiro & Administrativo.</td></tr>
+          <tr><td class="fname">financeiro/roles/06_ANALISTA_CONTAS_PAGAR_RECEBER.md</td><td>Playbook do cargo de contas a pagar/receber.</td></tr>
+          <tr><td class="fname">financeiro/roles/07_ANALISTA_DRE_E_PERFORMANCE.md</td><td>Playbook do cargo de DRE e performance.</td></tr>
+          <tr><td class="fname">financeiro/roles/08_CONTROLLER_E_GESTOR_FINANCEIRO.md</td><td>Playbook do cargo de Controller — vago, gera o conflito de RACI citado acima.</td></tr>
+          <tr><td class="fname">Aconos (ERP)</td><td>Sistema oficial — conciliação, contas a pagar/receber, folha de pagamento.</td></tr>
+        </table>
+      </div>
+
+      <div class="subsec">
+        <p class="subsec-title">🚀 Desafio Prático / Bench Test — Vanessa</p>
+        <div class="bench-box">
+          <p class="btitle">Contexto: fechamento de DRE de fim de mês com proposta de crédito B2B em aberto</p>
+          <ol>
+            <li><b>Conflito de RACI documentado</b> — reconhecer a colisão com o cargo de Controller (vago) como decisão pendente da CEO.</li>
+            <li><b>Sigilo & LGPD</b> — barrar compartilhamento indevido de dado de folha de pagamento fora do setor.</li>
+            <li><b>Conciliação sem alucinação de dado</b> — exigir conferência humana antes de fechar o número, mesmo diante de divergência.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="subsec" style="margin-bottom:0;">
+        <p class="subsec-title">🗺️ Fluxograma Operacional & Esteira de Processos do Setor</p>
+        <p class="subsec-hint">Ciclo financeiro e fechamento de DRE e organograma executivo — fonte: <code>financeiro/00_PROCESSOS_GLOBAIS.md</code>, seções 2 e 4.</p>
+        <div class="opflow-card">
+          <p class="opflow-block-title">📦 Ciclo Financeiro & Fechamento de DRE</p>
+          <div class="esteira-row">
+            <div class="esteira-node"><div class="etool">Aconos (ERP)</div><div class="erole">Registro de transações</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Mikaely</div><div class="erole">Conciliação diária</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Monalisa</div><div class="erole">Cobrança ativa & estoque físico</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Rafaela / Marcela</div><div class="erole">RH & DP — folha e processos</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Vanessa</div><div class="erole">Consolidação & aprovação do DRE</div></div>
+            <div class="esteira-arrow">➔</div>
+            <div class="esteira-node"><div class="etool">Reunião Mensal Estratégica</div><div class="erole">Resultado consolidado à CEO</div></div>
+          </div>
+
+          <p class="opflow-block-title second">👥 Organograma & Alocação Executiva do Setor</p>
+          <div class="exec-hierarchy">
+            <div class="exec-ceo-box">CEO / Diretoria Executiva<span class="cerole">Chayza Dantas</span></div>
+            <div class="exec-trunk-v"></div>
+            <div class="exec-bus-wrap"><div class="exec-bus"></div></div>
+            <div class="exec-columns">
+              <div class="exec-col" style="max-width:520px;">
+                <div class="exec-col-drop"></div>
+                <div class="exec-decisor-box"><div class="dname">Gestora Financeira — Vanessa</div><div class="drole2">Dona do "como o dinheiro e a equipe são geridos"</div></div>
+                <div class="exec-decision-note"><b>Decide:</b> prioridade de pagamentos em cenário de caixa restrito, aprovação final de relatórios/DRE antes de subir à CEO, alocação de tarefas entre a equipe do setor.</div>
+                <div class="exec-col-team">
+                  <div class="exec-team-chip"><div class="ename">Mikaely</div><div class="erolefunc">Analista Financeira — conciliação diária</div></div>
+                  <div class="exec-team-chip"><div class="ename">Monalisa</div><div class="erolefunc">Auxiliar Financeira — cobrança e estoque físico</div></div>
+                  <div class="exec-team-chip"><div class="ename">Rafaela</div><div class="erolefunc">Coordenadora de RH</div></div>
+                  <div class="exec-team-chip"><div class="ename">Marcela</div><div class="erolefunc">Coordenadora de DP</div></div>
+                  <div class="exec-team-chip vago"><div class="ename">Controller e Gestor Financeiro</div><div class="erolefunc">Conflito de RACI</div><span class="vago-tag2">vago — decisão pendente da CEO</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="exec-legend-note"><b>Nota de escopo:</b> o Gestor do Site decide o "Controle Geral de Verba" de mídia/marketing — escopo diferente da operação financeira geral (DRE, contas, folha), que é de Vanessa. Fonte: <code>financeiro/00_PROCESSOS_GLOBAIS.md</code>, seção 2.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    ASAI Framework™ — Portal Operacional dos Setores · Chlorophylla · Tríade de Gestão · Gerado em <span id="genDate"></span>
+  </footer>
+
+<script>
+  // ---- Sector tab switching ----
+  var tabBtns = document.querySelectorAll('.sector-tab-btn');
+  var panels = document.querySelectorAll('.sector-panel');
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var target = btn.getAttribute('data-target');
+      tabBtns.forEach(function(b){ b.classList.toggle('active', b === btn); });
+      panels.forEach(function(p){ p.classList.toggle('active', p.id === target); });
+    });
+  });
+
+  // ---- Copy command buttons ----
+  var copyBtns = document.querySelectorAll('.copy-btn');
+  copyBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var cmd = btn.getAttribute('data-cmd');
+      var resetLabel = 'Copiar';
+      function showCopied(){
+        btn.textContent = 'Copiado ✓';
+        btn.classList.add('copied');
+        setTimeout(function(){
+          btn.textContent = resetLabel;
+          btn.classList.remove('copied');
+        }, 1600);
+      }
+      if(navigator.clipboard && window.isSecureContext){
+        navigator.clipboard.writeText(cmd).then(showCopied).catch(function(){ fallbackCopy(cmd, showCopied); });
+      } else {
+        fallbackCopy(cmd, showCopied);
+      }
+    });
+  });
+  function fallbackCopy(text, done){
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    done();
+  }
+
+  // ---- Footer date ----
+  document.getElementById('genDate').textContent = new Date().toLocaleDateString('pt-BR', { day:'2-digit', month:'long', year:'numeric' });
+</script>
+
+</body>
+</html>
